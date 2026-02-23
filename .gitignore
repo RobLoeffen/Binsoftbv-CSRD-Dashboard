@@ -430,3 +430,50 @@ appsettings.Development.json
 appsettings.Production.json
 appsettings.Staging.json
 appsettings.Local.json
+
+# Frontend - Vue.js/Vite/Node.js specific
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Environment variables (additional patterns)
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor directories and files
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Vite specific
+vite.config.ts.timestamp-*
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Testing coverage
+coverage/
+.nyc_output/
+
+# Temporary folders
+tmp/
+temp/
