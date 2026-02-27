@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Binsoft.Ecoparts.Application/Binsoft.Ecoparts.Application.csproj" Id="462826f0-ee73-4821-93ed-ef256184d2c0" />
+  <Project Path="Binsoft.Ecoparts.Domain/Binsoft.Ecoparts.Domain.csproj" />
+  <Project Path="Binsoft.Ecoparts.Infrastructure/Binsoft.Ecoparts.Infrastructure.csproj" Id="7f418d61-ac26-475f-9b2d-a4bab809d855" />
+  <Project Path="Binsoft.Ecoparts/Binsoft.Ecoparts.Api.csproj" />
+</Solution>

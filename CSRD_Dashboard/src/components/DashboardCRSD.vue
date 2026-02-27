@@ -22,7 +22,7 @@ const barConfig = createBarChartConfig(
 </script>
 
 <template>
-  <div class="min-h-screen w-full p-4 sm:p-6 md:p-8 flex items-center justify-end">
+  <div class="min-h-screen w-full p-4 sm:p-6 md:p-8 flex items-center justify-center">
     <section
       class="w-full max-w-[1250px] rounded-3xl bg-[var(--vt-c-grey)] p-4 sm:p-6 flex flex-col gap-4 sm:gap-6"
       aria-label="Dashboard content area"

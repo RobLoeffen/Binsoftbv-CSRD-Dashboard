@@ -7,49 +7,46 @@ import { createPieChartConfig } from './Dashboard/pieChartConfig'
 const route = useRoute()
 const router = useRouter()
 
-const faseId = computed(() => route.params.faseId as string)
+const materialId = computed(() => route.params.materialId as string)
 
-const faseData: Record<string, { labels: string[]; values: number[]; title: string }> = {
-  '1': {
-    labels: ['Sub A', 'Sub B', 'Sub C', 'Sub D'],
-    values: [30, 45, 80, 25],
-    title: 'Fase 1 - Details',
+const pieChartData = [
+  {
+    labels: ['Ecoparts', 'New parts'],
+    values: [65, 35],
+    title: 'PET',
   },
-  '2': {
-    labels: ['Item X', 'Item Y', 'Item Z'],
-    values: [50, 70, 40],
-    title: 'Fase 2 - Details',
+  {
+    labels: ['Ecoparts', 'New parts'],
+    values: [70, 30],
+    title: 'HDPE',
   },
-  '3': {
-    labels: ['Grondstofwinning', 'Productie', 'Transport', 'Gebruik', 'Verbranding', 'Recycling'],
-    values: [85, 90, 75, 80, 70, 100],
-    title: 'Fase 3 - Co2 uitstoot',
+  {
+    labels: ['Ecoparts', 'New parts'],
+    values: [60, 40],
+    title: 'LDPE',
   },
-  '4': {
-    labels: ['Section A', 'Section B'],
-    values: [20, 80],
-    title: 'Fase 4 - Details',
+  {
+    labels: ['Ecoparts', 'New parts'],
+    values: [75, 25],
+    title: 'PP',
   },
-  '5': {
-    labels: ['Component 1', 'Component 2', 'Component 3'],
-    values: [55, 80, 45],
-    title: 'Fase 5 - Details',
+  {
+    labels: ['Ecoparts', 'New parts'],
+    values: [85, 10],
+    title: 'PS',
   },
-}
+  {
+    labels: ['Ecoparts', 'New parts'],
+    values: [68, 32],
+    title: 'PVC',
+  },
+]
 
-const currentFaseData = computed(() => {
-  const data = faseData[faseId.value] ?? faseData['1']
-  return data as { labels: string[]; values: number[]; title: string }
-})
-
-const chartConfig = computed(() =>
-  createPieChartConfig(
-    currentFaseData.value.labels,
-    currentFaseData.value.values,
-    currentFaseData.value.title,
-    (index) => {
-      router.push(`/materials/${index + 1}`)
-    },
+const chartConfigs = computed(() =>
+  pieChartData.map((chartData, chartIndex) =>
+    createPieChartConfig(chartData.labels, chartData.values, chartData.title, (materialId) => {
+      router.push(`/ecoparts/${chartIndex + 1}-material-${materialId}`)
+    }),
   ),
 )
 
@@ -68,7 +65,9 @@ const goBack = () => {
         <div
           class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-xl rounded-lg"
         ></div>
-        <h1 class="text-3xl font-mono font-bold text-white relative z-10">Fase {{ faseId }}</h1>
+        <h1 class="text-3xl font-mono font-bold text-white relative z-10">
+          Material {{ materialId }}
+        </h1>
         <button
           @click="goBack"
           class="px-4 py-2 bg-[var(--vt-c-grey-soft)] text-white rounded-lg hover:bg-opacity-80 cursor-pointer transition-colors font-mono relative z-10 shadow-lg border border-white/5 hover:border-white/10 hover:shadow-xl"
@@ -92,12 +91,14 @@ const goBack = () => {
         </p>
       </section>
 
-      <div class="flex-1 pb-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-2">
         <section
-          class="h-full rounded-2xl bg-[var(--vt-c-grey-soft)] p-4 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] cursor-pointer group relative overflow-hidden"
-          aria-label="Pie chart section"
+          v-for="(config, index) in chartConfigs"
+          :key="index"
+          class="rounded-2xl bg-[var(--vt-c-grey-soft)] p-4 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer group relative overflow-hidden"
+          :aria-label="`Pie chart ${index + 1}`"
         >
-          <ChartWrapper type="pie" :data="chartConfig.data" :options="chartConfig.options" />
+          <ChartWrapper type="pie" :data="config.data" :options="config.options" />
         </section>
       </div>
     </section>
