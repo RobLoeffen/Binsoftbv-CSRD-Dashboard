@@ -116,36 +116,33 @@ namespace Binsoft.CRSDdashboard.Api.Tests.Services
         {
             int ecopartId = 1;
             double totalCo2 = 21.0;
-            double co2PerKg = 2.0;
 
             var ecopart = TestDataFactory.CreateEcopart(
-                id: ecopartId,
-                weight: 10.5);
+                id: ecopartId);
 
             var expectedResponse = TestDataFactory.CreateEcopartWithEmissionsResponse(
                 id: ecopartId,
-                totalCo2Equivalent: totalCo2,
-                co2PerKg: co2PerKg);
+                totalCo2Equivalent: totalCo2);
 
             _mockEcopartRepository
                 .Setup(r => r.GetByIdAsync(ecopartId))
                 .ReturnsAsync(ecopart);
 
             _mockCo2CalculationService
-                .Setup(s => s.CalculateCo2EquivalentAsync(ecopart.Material, ecopart.Weight))
-                .ReturnsAsync((totalCo2, co2PerKg));
+                .Setup(s => s.CalculateCo2EquivalentAsync(ecopart.Material.Name, ecopart.Mass))
+                .ReturnsAsync(totalCo2);
 
             _mockMapper
-                .Setup(m => m.ToResponseWithEmissions(ecopart, totalCo2, co2PerKg))
+                .Setup(m => m.ToResponseWithEmissions(ecopart, totalCo2))
                 .Returns(expectedResponse);
 
             var result = await _sut.GetEcopartWithEmissionsAsync(ecopartId);
 
             result.Should().NotBeNull();
             result.TotalCo2Equivalent.Should().Be(totalCo2);
-            result.Co2PerKg.Should().Be(co2PerKg);
+            result.Material.Co2PerKg.Should().Be(2.0);
             _mockCo2CalculationService.Verify(
-                s => s.CalculateCo2EquivalentAsync(ecopart.Material, ecopart.Weight),
+                s => s.CalculateCo2EquivalentAsync(ecopart.Material.Name, ecopart.Mass),
                 Times.Once);
         }
 
@@ -171,15 +168,14 @@ namespace Binsoft.CRSDdashboard.Api.Tests.Services
             int ecopartId = 1;
             var ecopart = TestDataFactory.CreateEcopart(
                 id: ecopartId,
-                material: "UnknownMaterial",
-                weight: 10);
+                material: "UnknownMaterial");
 
             _mockEcopartRepository
                 .Setup(r => r.GetByIdAsync(ecopartId))
                 .ReturnsAsync(ecopart);
 
             _mockCo2CalculationService
-                .Setup(s => s.CalculateCo2EquivalentAsync(ecopart.Material, ecopart.Weight))
+                .Setup(s => s.CalculateCo2EquivalentAsync(ecopart.Material.Name, ecopart.Mass))
                 .ThrowsAsync(new InvalidOperationException("No emission factor found"));
 
             Func<Task> act = async () => await _sut.GetEcopartWithEmissionsAsync(ecopartId);

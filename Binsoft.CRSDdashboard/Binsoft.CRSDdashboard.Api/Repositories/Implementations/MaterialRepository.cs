@@ -5,27 +5,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Binsoft.CRSDdashboard.Api.Repositories.Implementations
 {
-    public class EmissionFactorRepository : IEmissionFactorRepository
+    public class MaterialRepository : IMaterialRepository
     {
         private readonly AppDbContext _context;
 
-        public EmissionFactorRepository(AppDbContext context)
+        public MaterialRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<EmissionFactor>> GetAllAsync()
+        public async Task<IEnumerable<Material>> GetAllAsync()
         {
-            return await _context.EmissionFactors
+            return await _context.Material
                 .AsNoTracking()
                 .ToListAsync();
         }
 
-        public async Task<EmissionFactor?> GetByMaterialAsync(string material)
+        public async Task<Material?> GetByNameAsync(string name)
         {
-            return await _context.EmissionFactors
+            return await _context.Material
                 .AsNoTracking()
-                .FirstOrDefaultAsync(ef => ef.Material == material);
+                .FirstOrDefaultAsync(m => m.Name == name);
         }
     }
 }

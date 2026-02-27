@@ -10,7 +10,7 @@ namespace Binsoft.CRSDdashboard.Api.Data
         }
 
         public DbSet<Ecopart> Ecoparts { get; set; }
-        public DbSet<EmissionFactor> EmissionFactors { get; set; }
+        public DbSet<Material> Material { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,25 +20,28 @@ namespace Binsoft.CRSDdashboard.Api.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
-                entity.Property(e => e.Material).IsRequired().HasMaxLength(100);
+                entity.HasOne(e => e.Material)
+                      .WithMany(m => m.Ecoparts)
+                      .HasForeignKey(e => e.MaterialId)
+                      .OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetime('now')");
             });
 
-            modelBuilder.Entity<EmissionFactor>(entity =>
+            modelBuilder.Entity<Material>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Material).IsRequired().HasMaxLength(100);
-                entity.HasIndex(e => e.Material).IsUnique();
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+                entity.HasIndex(e => e.Name).IsUnique();
             });
 
-            modelBuilder.Entity<EmissionFactor>().HasData(
-                new EmissionFactor { Id = 1, Material = "PET", Co2PerKg = 2.25 },
-                new EmissionFactor { Id = 2, Material = "HDPE", Co2PerKg = 3.09 },
-                new EmissionFactor { Id = 3, Material = "LDPE", Co2PerKg = 3.09 },
-                new EmissionFactor { Id = 4, Material = "PP", Co2PerKg = 3.09 },
-                new EmissionFactor { Id = 5, Material = "PS", Co2PerKg = 3.33 },
-                new EmissionFactor { Id = 6, Material = "PVC", Co2PerKg = 1.39 },
-                new EmissionFactor { Id = 7, Material = "PLA", Co2PerKg = 0.011 }
+            modelBuilder.Entity<Material>().HasData(
+                new Material { Id = 1, Name = "PET", Co2PerKg = 2.25, Density = 1.27 },
+                new Material { Id = 2, Name = "HDPE", Co2PerKg = 3.09, Density = 0.96 },
+                new Material { Id = 3, Name = "LDPE", Co2PerKg = 3.09, Density = 0.94 },
+                new Material { Id = 4, Name = "PP", Co2PerKg = 3.09, Density = 0.91 },
+                new Material { Id = 5, Name = "PS", Co2PerKg = 3.33, Density = 1.06 },
+                new Material { Id = 6, Name = "PVC", Co2PerKg = 1.39, Density = 1.45 },
+                new Material { Id = 7, Name = "PLA", Co2PerKg = 0.011, Density = 1.24 }
             );
 
             modelBuilder.Entity<Ecopart>().HasData(
@@ -46,77 +49,77 @@ namespace Binsoft.CRSDdashboard.Api.Data
                 { 
                     Id = 1, 
                     Name = "PET Plate", 
-                    Length = 300, 
-                    Width = 200, 
+                    ShapeType = ShapeType.RectangularPrism,
+                    Length = 3, 
+                    Width = 2, 
                     Height = 5,
-                    Weight = 1.2, 
-                    Material = "PET", 
+                    MaterialId = 1, 
                     CreatedAt = new DateTime(2024, 1, 15) 
                 },
                 new Ecopart 
                 { 
                     Id = 2, 
                     Name = "HDPE Plate", 
-                    Length = 300, 
-                    Width = 200, 
+                    ShapeType = ShapeType.RectangularPrism,
+                    Length = 1, 
+                    Width = .5, 
                     Height = 5,
-                    Weight = 1.5, 
-                    Material = "HDPE", 
+                    MaterialId = 2,
                     CreatedAt = new DateTime(2024, 1, 20) 
                 },
                 new Ecopart 
                 { 
                     Id = 3, 
                     Name = "LDPE Plate", 
-                    Length = 300, 
-                    Width = 200, 
+                    ShapeType = ShapeType.RectangularPrism,
+                    Length = 4, 
+                    Width = 6, 
                     Height = 5,
-                    Weight = 1.4, 
-                    Material = "LDPE", 
+                    MaterialId = 3,
                     CreatedAt = new DateTime(2024, 2, 5) 
                 },
                 new Ecopart 
                 { 
                     Id = 4, 
                     Name = "PP Plate", 
-                    Length = 300, 
-                    Width = 200, 
+                    ShapeType = ShapeType.RectangularPrism,
+                    Length = .1, 
+                    Width = .5, 
                     Height = 5,
-                    Weight = 1.3, 
-                    Material = "PP", 
+                    MaterialId = 4,
                     CreatedAt = new DateTime(2024, 2, 10) 
                 },
                 new Ecopart 
                 { 
                     Id = 5, 
                     Name = "PS Plate", 
-                    Length = 300, 
-                    Width = 200, 
+                    ShapeType = ShapeType.RectangularPrism,
+                    Length = 3, 
+                    Width = 2, 
                     Height = 5,
-                    Weight = 1.6, 
-                    Material = "PS", 
+                    MaterialId = 5,
                     CreatedAt = new DateTime(2024, 2, 15) 
                 },
                 new Ecopart 
                 { 
                     Id = 6, 
                     Name = "PVC Plate", 
-                    Length = 300, 
-                    Width = 200, 
+                    ShapeType = ShapeType.RectangularPrism,
+                    Length = 10, 
+                    Width = 20, 
                     Height = 5,
-                    Weight = 2.1, 
-                    Material = "PVC", 
+                    MaterialId = 6,
                     CreatedAt = new DateTime(2024, 2, 20) 
                 },
                 new Ecopart 
                 { 
                     Id = 7, 
                     Name = "PLA Plate", 
-                    Length = 300, 
-                    Width = 200, 
+                    ShapeType = ShapeType.RectangularPrism,
+                    Length = 1, 
+                    Width = 1, 
                     Height = 5,
-                    Weight = 1.8, 
-                    Material = "PLA", 
+                    MaterialId = 7,
                     CreatedAt = new DateTime(2024, 2, 25) 
                 }
             );

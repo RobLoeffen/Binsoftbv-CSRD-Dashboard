@@ -6,6 +6,6 @@ namespace Binsoft.CRSDdashboard.Api.Mappers
     public interface IEcopartMapper
     {
         EcopartResponse ToResponse(Ecopart entity);
-        EcopartWithEmissionsResponse ToResponseWithEmissions(Ecopart entity, double co2Equivalent, double co2PerKg);
+        EcopartWithEmissionsResponse ToResponseWithEmissions(Ecopart entity, double co2Equivalent);
     }
 }

@@ -40,10 +40,10 @@ namespace Binsoft.CRSDdashboard.Api.Services.Implementations
             if (ecopart == null)
                 return null;
 
-            var (totalCo2, co2PerKg) = await _co2CalculationService
-                .CalculateCo2EquivalentAsync(ecopart.Material, ecopart.Weight);
+            var totalCo2 = await _co2CalculationService
+                .CalculateCo2EquivalentAsync(ecopart.Material.Name, ecopart.Mass);
 
-            return _mapper.ToResponseWithEmissions(ecopart, totalCo2, co2PerKg);
+            return _mapper.ToResponseWithEmissions(ecopart, totalCo2);
         }
     }
 }

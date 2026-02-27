@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Binsoft.CRSDdashboard.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260223112117_InitialCreate")]
+    [Migration("20260224143742_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -37,10 +37,8 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                     b.Property<double>("Length")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("Material")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -55,6 +53,8 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MaterialId");
+
                     b.ToTable("Ecoparts");
 
                     b.HasData(
@@ -64,7 +64,7 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             CreatedAt = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
                             Length = 300.0,
-                            Material = "PET",
+                            MaterialId = 1,
                             Name = "PET Plate",
                             Weight = 1.2,
                             Width = 200.0
@@ -75,7 +75,7 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             CreatedAt = new DateTime(2024, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
                             Length = 300.0,
-                            Material = "HDPE",
+                            MaterialId = 2,
                             Name = "HDPE Plate",
                             Weight = 1.5,
                             Width = 200.0
@@ -86,7 +86,7 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             CreatedAt = new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
                             Length = 300.0,
-                            Material = "LDPE",
+                            MaterialId = 3,
                             Name = "LDPE Plate",
                             Weight = 1.3999999999999999,
                             Width = 200.0
@@ -97,7 +97,7 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             CreatedAt = new DateTime(2024, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
                             Length = 300.0,
-                            Material = "PP",
+                            MaterialId = 4,
                             Name = "PP Plate",
                             Weight = 1.3,
                             Width = 200.0
@@ -108,7 +108,7 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             CreatedAt = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
                             Length = 300.0,
-                            Material = "PS",
+                            MaterialId = 5,
                             Name = "PS Plate",
                             Weight = 1.6000000000000001,
                             Width = 200.0
@@ -119,7 +119,7 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             CreatedAt = new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
                             Length = 300.0,
-                            Material = "PVC",
+                            MaterialId = 6,
                             Name = "PVC Plate",
                             Weight = 2.1000000000000001,
                             Width = 200.0
@@ -130,14 +130,14 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             CreatedAt = new DateTime(2024, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
                             Length = 300.0,
-                            Material = "PLA",
+                            MaterialId = 7,
                             Name = "PLA Plate",
                             Weight = 1.8,
                             Width = 200.0
                         });
                 });
 
-            modelBuilder.Entity("Binsoft.CRSDdashboard.Api.Models.Entities.EmissionFactor", b =>
+            modelBuilder.Entity("Binsoft.CRSDdashboard.Api.Models.Entities.Material", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,61 +146,87 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                     b.Property<double>("Co2PerKg")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("Material")
+                    b.Property<double>("Density")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Material")
+                    b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("EmissionFactors");
+                    b.ToTable("Material");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Co2PerKg = 2.25,
-                            Material = "PET"
+                            Density = 1.27,
+                            Name = "PET"
                         },
                         new
                         {
                             Id = 2,
                             Co2PerKg = 3.0899999999999999,
-                            Material = "HDPE"
+                            Density = 0.95999999999999996,
+                            Name = "HDPE"
                         },
                         new
                         {
                             Id = 3,
                             Co2PerKg = 3.0899999999999999,
-                            Material = "LDPE"
+                            Density = 0.93999999999999995,
+                            Name = "LDPE"
                         },
                         new
                         {
                             Id = 4,
                             Co2PerKg = 3.0899999999999999,
-                            Material = "PP"
+                            Density = 0.91000000000000003,
+                            Name = "PP"
                         },
                         new
                         {
                             Id = 5,
                             Co2PerKg = 3.3300000000000001,
-                            Material = "PS"
+                            Density = 1.0600000000000001,
+                            Name = "PS"
                         },
                         new
                         {
                             Id = 6,
                             Co2PerKg = 1.3899999999999999,
-                            Material = "PVC"
+                            Density = 1.45,
+                            Name = "PVC"
                         },
                         new
                         {
                             Id = 7,
                             Co2PerKg = 0.010999999999999999,
-                            Material = "PLA"
+                            Density = 1.24,
+                            Name = "PLA"
                         });
+                });
+
+            modelBuilder.Entity("Binsoft.CRSDdashboard.Api.Models.Entities.Ecopart", b =>
+                {
+                    b.HasOne("Binsoft.CRSDdashboard.Api.Models.Entities.Material", "Material")
+                        .WithMany("Ecoparts")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+                });
+
+            modelBuilder.Entity("Binsoft.CRSDdashboard.Api.Models.Entities.Material", b =>
+                {
+                    b.Navigation("Ecoparts");
                 });
 #pragma warning restore 612, 618
         }

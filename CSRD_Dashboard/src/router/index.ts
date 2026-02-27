@@ -1,5 +1,8 @@
 import DashboardCRSD from '@/components/DashboardCRSD.vue'
+import EcopartDetail from '@/components/EcopartDetail.vue'
+import EcopartsList from '@/components/EcopartsList.vue'
 import FaseDetails from '@/components/FaseDetails.vue'
+import MaterialDetails from '@/components/MaterialDetails.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -12,6 +15,24 @@ const routes = [
     path: '/fase/:faseId',
     name: 'FaseDetails',
     component: FaseDetails,
+    props: true,
+  },
+  {
+    path: '/materials/:materialId',
+    name: 'MaterialDetails',
+    component: MaterialDetails,
+    props: true,
+  },
+  {
+    path: '/ecoparts/:materialId',
+    name: 'EcopartsList',
+    component: EcopartsList,
+    props: true,
+  },
+  {
+    path: '/ecoparts/detail/:ecopartId',
+    name: 'EcopartDetail',
+    component: EcopartDetail,
     props: true,
   },
 ]

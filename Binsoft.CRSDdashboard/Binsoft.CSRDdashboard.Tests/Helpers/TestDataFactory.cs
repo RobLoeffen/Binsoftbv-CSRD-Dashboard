@@ -9,21 +9,24 @@ namespace Binsoft.CSRDdashboard.Tests.Helpers
             int id = 1,
             string name = "Plastic plate",
             string material = "PET",
+            ShapeType shapeType = ShapeType.RectangularPrism,
             double length = 10.0,
-            double width = 5.0,
-            double height = 2.0,
-            double weight = 10.0,
+            double? width = 5.0,
+            double? height = 2.0,
+            double? radius = null,
             DateTime? createdAt = null)
         {
             return new Ecopart
             {
                 Id = id,
                 Name = name,
-                Material = material,
+                ShapeType = shapeType,
+                MaterialId = 1,
+                Material = new Material { Id = 1, Name = material, Co2PerKg = 2.0, Density = 1.38 },
                 Length = length,
                 Width = width,
                 Height = height,
-                Weight = weight,
+                Radius = radius,
                 CreatedAt = createdAt ?? DateTime.UtcNow
             };
         }
@@ -32,18 +35,32 @@ namespace Binsoft.CSRDdashboard.Tests.Helpers
             int id = 1,
             string name = "Plastic plate",
             string material = "PET",
+            string shapeType = "RectangularPrism",
             double length = 10.0,
-            double width = 5.0,
-            double weight = 10.0)
+            double? width = 5.0,
+            double? height = 2.0,
+            double? radius = null,
+            double volume = 100.0,
+            double mass = 138.0)
         {
             return new EcopartResponse
             {
                 Id = id,
                 Name = name,
-                Material = material,
+                ShapeType = shapeType,
+                Material = new MaterialResponse
+                {
+                    Id = 1,
+                    Name = material,
+                    Co2PerKg = 2.0,
+                    Density = 1.38
+                },
                 Length = length,
                 Width = width,
-                Weight = weight
+                Height = height,
+                Radius = radius,
+                Volume = volume,
+                Mass = mass
             };
         }
 
@@ -51,9 +68,13 @@ namespace Binsoft.CSRDdashboard.Tests.Helpers
             int id = 1,
             string name = "Plastic plate",
             string material = "PET",
+            string shapeType = "RectangularPrism",
             double length = 10.0,
-            double width = 5.0,
-            double weight = 10.0,
+            double? width = 5.0,
+            double? height = 2.0,
+            double? radius = null,
+            double volume = 100.0,
+            double mass = 138.0,
             double totalCo2Equivalent = 20.0,
             double co2PerKg = 2.0)
         {
@@ -61,25 +82,36 @@ namespace Binsoft.CSRDdashboard.Tests.Helpers
             {
                 Id = id,
                 Name = name,
-                Material = material,
+                ShapeType = shapeType,
+                Material = new MaterialResponse
+                {
+                    Id = 1,
+                    Name = material,
+                    Co2PerKg = co2PerKg,
+                    Density = 1.38
+                },
                 Length = length,
                 Width = width,
-                Weight = weight,
-                TotalCo2Equivalent = totalCo2Equivalent,
-                Co2PerKg = co2PerKg
+                Height = height,
+                Radius = radius,
+                Volume = volume,
+                Mass = mass,
+                TotalCo2Equivalent = totalCo2Equivalent
             };
         }
 
-        public static EmissionFactor CreateEmissionFactor(
+        public static Material CreateMaterial(
             int id = 1,
             string material = "PET",
-            double co2PerKg = 2.0)
+            double co2PerKg = 2.0,
+            double density = 1.38)
         {
-            return new EmissionFactor
+            return new Material
             {
                 Id = id,
-                Material = material,
-                Co2PerKg = co2PerKg
+                Name = material,
+                Co2PerKg = co2PerKg,
+                Density = density
             };
         }
 
@@ -91,8 +123,7 @@ namespace Binsoft.CSRDdashboard.Tests.Helpers
                 ecoparts.Add(CreateEcopart(
                     id: i,
                     name: $"Part{i}",
-                    material: i % 2 == 0 ? "PET" : "HDPE",
-                    weight: 10.0 * i
+                    material: i % 2 == 0 ? "PET" : "HDPE"
                 ));
             }
             return ecoparts;
@@ -106,8 +137,7 @@ namespace Binsoft.CSRDdashboard.Tests.Helpers
                 responses.Add(CreateEcopartResponse(
                     id: i,
                     name: $"Part{i}",
-                    material: i % 2 == 0 ? "PET" : "HDPE",
-                    weight: 10.0 * i
+                    material: i % 2 == 0 ? "PET" : "HDPE"
                 ));
             }
             return responses;

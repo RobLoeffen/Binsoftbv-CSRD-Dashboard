@@ -9,28 +9,22 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-// Database Configuration
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register Repositories (Data Access Layer) - Following SRP
 builder.Services.AddScoped<IEcopartRepository, EcopartRepository>();
-builder.Services.AddScoped<IEmissionFactorRepository, EmissionFactorRepository>();
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 
-// Register Services (Business Logic Layer) - Following SRP
 builder.Services.AddScoped<IEcopartService, EcopartService>();
 builder.Services.AddScoped<ICo2CalculationService, Co2CalculationService>();
 
-// Register Mappers (Object Transformation) - Following SRP
 builder.Services.AddScoped<IEcopartMapper, EcopartMapper>();
 
 var app = builder.Build();
 
-// Apply migrations automatically on startup (Development only)
 if (app.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
@@ -40,7 +34,6 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

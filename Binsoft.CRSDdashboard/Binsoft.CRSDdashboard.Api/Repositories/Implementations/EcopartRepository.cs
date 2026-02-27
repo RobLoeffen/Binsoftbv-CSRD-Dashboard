@@ -1,5 +1,6 @@
 using Binsoft.CRSDdashboard.Api.Data;
 using Binsoft.CRSDdashboard.Api.Models.Entities;
+
 using Binsoft.CRSDdashboard.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ namespace Binsoft.CRSDdashboard.Api.Repositories.Implementations
         public async Task<IEnumerable<Ecopart>> GetAllAsync()
         {
             return await _context.Ecoparts
+                .Include(e => e.Material)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -24,6 +26,7 @@ namespace Binsoft.CRSDdashboard.Api.Repositories.Implementations
         public async Task<Ecopart?> GetByIdAsync(int id)
         {
             return await _context.Ecoparts
+                .Include(e => e.Material)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == id);
         }

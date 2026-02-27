@@ -3,6 +3,7 @@ using System;
 using Binsoft.CRSDdashboard.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Binsoft.CRSDdashboard.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260225105241_AddShapeTypeToEcopart")]
+    partial class AddShapeTypeToEcopart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.3");
@@ -63,77 +66,77 @@ namespace Binsoft.CRSDdashboard.Api.Migrations
                             Id = 1,
                             CreatedAt = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
-                            Length = 3.0,
+                            Length = 300.0,
                             MaterialId = 1,
                             Name = "PET Plate",
                             ShapeType = 1,
-                            Width = 2.0
+                            Width = 200.0
                         },
                         new
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2024, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
-                            Length = 1.0,
+                            Length = 300.0,
                             MaterialId = 2,
                             Name = "HDPE Plate",
                             ShapeType = 1,
-                            Width = 0.5
+                            Width = 200.0
                         },
                         new
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
-                            Length = 4.0,
+                            Length = 300.0,
                             MaterialId = 3,
                             Name = "LDPE Plate",
                             ShapeType = 1,
-                            Width = 6.0
+                            Width = 200.0
                         },
                         new
                         {
                             Id = 4,
                             CreatedAt = new DateTime(2024, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
-                            Length = 0.10000000000000001,
+                            Length = 300.0,
                             MaterialId = 4,
                             Name = "PP Plate",
                             ShapeType = 1,
-                            Width = 0.5
+                            Width = 200.0
                         },
                         new
                         {
                             Id = 5,
                             CreatedAt = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
-                            Length = 3.0,
+                            Length = 300.0,
                             MaterialId = 5,
                             Name = "PS Plate",
                             ShapeType = 1,
-                            Width = 2.0
+                            Width = 200.0
                         },
                         new
                         {
                             Id = 6,
                             CreatedAt = new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
-                            Length = 10.0,
+                            Length = 300.0,
                             MaterialId = 6,
                             Name = "PVC Plate",
                             ShapeType = 1,
-                            Width = 20.0
+                            Width = 200.0
                         },
                         new
                         {
                             Id = 7,
                             CreatedAt = new DateTime(2024, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Height = 5.0,
-                            Length = 1.0,
+                            Length = 300.0,
                             MaterialId = 7,
                             Name = "PLA Plate",
                             ShapeType = 1,
-                            Width = 1.0
+                            Width = 200.0
                         });
                 });
 

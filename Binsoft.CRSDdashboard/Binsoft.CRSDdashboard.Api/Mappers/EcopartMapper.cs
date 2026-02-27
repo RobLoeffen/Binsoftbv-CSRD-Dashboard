@@ -11,25 +11,45 @@ namespace Binsoft.CRSDdashboard.Api.Mappers
             {
                 Id = entity.Id,
                 Name = entity.Name,
+                ShapeType = entity.ShapeType.ToString(),
                 Length = entity.Length,
                 Width = entity.Width,
-                Weight = entity.Weight,
-                Material = entity.Material
+                Height = entity.Height,
+                Radius = entity.Radius,
+                Volume = entity.Volume,
+                Mass = entity.Mass,
+                Material = new MaterialResponse
+                {
+                    Id = entity.Material.Id,
+                    Name = entity.Material.Name,
+                    Density = entity.Material.Density,
+                    Co2PerKg = entity.Material.Co2PerKg
+                }
             };
         }
 
-        public EcopartWithEmissionsResponse ToResponseWithEmissions(Ecopart entity, double co2Equivalent, double co2PerKg)
+        public EcopartWithEmissionsResponse ToResponseWithEmissions(Ecopart entity, double co2Equivalent)
         {
+
             return new EcopartWithEmissionsResponse
             {
                 Id = entity.Id,
                 Name = entity.Name,
+                ShapeType = entity.ShapeType.ToString(),
                 Length = entity.Length,
                 Width = entity.Width,
-                Weight = entity.Weight,
-                Material = entity.Material,
-                TotalCo2Equivalent = co2Equivalent,
-                Co2PerKg = co2PerKg
+                Height = entity.Height,
+                Radius = entity.Radius,
+                Volume = entity.Volume,
+                Mass = entity.Mass,
+                Material = new MaterialResponse
+                {
+                    Id = entity.Material.Id,
+                    Name = entity.Material.Name,
+                    Density = entity.Material.Density,
+                    Co2PerKg = entity.Material.Co2PerKg
+                },
+                TotalCo2Equivalent = co2Equivalent
             };
         }
     }
