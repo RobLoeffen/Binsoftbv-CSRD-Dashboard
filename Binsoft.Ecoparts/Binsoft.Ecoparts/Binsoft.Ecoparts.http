@@ -1,0 +1,6 @@
+@Binsoft.Ecoparts_HostAddress = http://localhost:5197
+
+GET {{Binsoft.Ecoparts_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
