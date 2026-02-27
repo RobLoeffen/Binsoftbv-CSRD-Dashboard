@@ -25,10 +25,8 @@ const goBack = () => {
   router.back()
 }
 
-// Convert meters to centimeters
 const toCm = (value: number | undefined) => (value !== undefined ? (value * 100).toFixed(1) : '-')
 
-// Convert kg to grams
 const toGrams = (value: number) => (value * 1000).toFixed(2)
 </script>
 
@@ -38,7 +36,6 @@ const toGrams = (value: number) => (value * 1000).toFixed(2)
       class="w-full max-w-[1250px] rounded-3xl bg-[var(--vt-c-grey)] p-4 sm:p-6 flex flex-col gap-4 sm:gap-6"
       aria-label="Ecopart detail"
     >
-      <!-- Header -->
       <header class="relative flex items-center justify-between">
         <div
           class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-xl rounded-lg"
@@ -54,14 +51,11 @@ const toGrams = (value: number) => (value * 1000).toFixed(2)
         </button>
       </header>
 
-      <!-- Loading state -->
       <p v-if="loading" class="text-center text-white font-mono py-12">Loading...</p>
 
-      <!-- Error state -->
       <p v-else-if="error" class="text-center text-red-400 font-mono py-12">{{ error }}</p>
 
       <template v-else-if="ecopart">
-        <!-- Material Info Card -->
         <section
           class="rounded-2xl bg-[var(--vt-c-grey-soft)] p-6 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300"
         >
@@ -90,7 +84,6 @@ const toGrams = (value: number) => (value * 1000).toFixed(2)
           </div>
         </section>
 
-        <!-- CO₂ Carbon Footprint (Expandable) -->
         <section
           class="rounded-2xl bg-gradient-to-br from-green-900/30 to-green-800/20 shadow-lg border border-green-500/20 hover:border-green-500/40 transition-all duration-300 overflow-hidden"
         >
@@ -134,7 +127,6 @@ const toGrams = (value: number) => (value * 1000).toFixed(2)
           </transition>
         </section>
 
-        <!-- Dimensions & Mass (Expandable) -->
         <section
           class="rounded-2xl bg-[var(--vt-c-grey-soft)] shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 overflow-hidden"
         >
@@ -162,7 +154,6 @@ const toGrams = (value: number) => (value * 1000).toFixed(2)
             <div v-show="showDimensions" class="px-6 pb-6">
               <div class="pt-4 border-t border-white/10">
                 <ul class="space-y-3 font-mono">
-                  <!-- Rectangular: Length, Width, Height -->
                   <template v-if="isRectangular">
                     <li class="flex justify-between text-gray-300">
                       <span class="text-gray-400">Lengte:</span>
@@ -184,7 +175,6 @@ const toGrams = (value: number) => (value * 1000).toFixed(2)
                     </li>
                   </template>
 
-                  <!-- Cylinder: Radius, Height only -->
                   <template v-else-if="isCylinder">
                     <li class="flex justify-between text-gray-300">
                       <span class="text-gray-400">Straal:</span>

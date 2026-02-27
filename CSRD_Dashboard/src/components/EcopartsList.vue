@@ -61,17 +61,14 @@ const goBack = () => {
       </section>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-2">
-        <!-- Loading state -->
         <p v-if="loading" class="col-span-full text-center text-white font-mono">
           Loading ecoparts...
         </p>
 
-        <!-- Error state -->
         <p v-else-if="error" class="col-span-full text-center text-red-400 font-mono">
           {{ error }}
         </p>
 
-        <!-- Empty state -->
         <p
           v-else-if="ecoparts.length === 0"
           class="col-span-full text-center text-gray-400 font-mono"
@@ -79,7 +76,6 @@ const goBack = () => {
           No ecoparts found.
         </p>
 
-        <!-- Ecopart cards -->
         <article
           v-else
           v-for="ecopart in ecoparts"
