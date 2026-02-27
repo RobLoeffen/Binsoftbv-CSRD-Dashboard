@@ -13,12 +13,29 @@ const pieConfig = createPieChartConfig(
   },
 )
 
-const barConfig = createBarChartConfig(
-  ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5'],
-  [40, 20, 80, 10, 50],
-  'Bar Chart Example',
-  'Data One',
-)
+const barConfig = {
+  data: {
+    labels: ['Lasersnijden', 'messnijden', 'Ponsen', 'CNC frezen', 'Watersnijden', 'Zagen'],
+    datasets: [
+      {
+        label: 'CO2/KG',
+        data: [40, 20, 80, 10, 50],
+        backgroundColor: '#3b82f6',
+        borderRadius: 8
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Processen en hun CO2-uitstoot',
+      }
+    }
+  }
+}
 </script>
 
 <template>
