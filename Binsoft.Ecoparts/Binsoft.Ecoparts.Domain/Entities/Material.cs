@@ -16,12 +16,9 @@ public class Material
 
     public Material(string name, double density, double emissionFactor)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Name cannot be empty", nameof(name));
-        if (density <= 0)
-            throw new ArgumentException("Density must be greater than zero", nameof(density));
-        if (emissionFactor < 0)
-            throw new ArgumentException("Emission factor cannot be negative", nameof(emissionFactor));
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(density);
+        ArgumentOutOfRangeException.ThrowIfNegative(emissionFactor);
 
         Id = new MaterialId(Guid.NewGuid());
         Name = name;

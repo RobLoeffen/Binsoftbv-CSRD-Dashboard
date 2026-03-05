@@ -18,11 +18,11 @@ namespace Binsoft.Ecoparts.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     MaterialId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ShapeType = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    ShapeHeight = table.Column<double>(type: "REAL", nullable: false),
-                    ShapeLength = table.Column<double>(type: "REAL", nullable: true),
-                    ShapeWidth = table.Column<double>(type: "REAL", nullable: true),
-                    ShapeRadius = table.Column<double>(type: "REAL", nullable: true)
+                    ShapeId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DimHeight = table.Column<double>(type: "REAL", nullable: false),
+                    DimLength = table.Column<double>(type: "REAL", nullable: true),
+                    DimWidth = table.Column<double>(type: "REAL", nullable: true),
+                    DimRadius = table.Column<double>(type: "REAL", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,6 +42,18 @@ namespace Binsoft.Ecoparts.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Materials", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Shapes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ShapeType = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shapes", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -52,6 +64,9 @@ namespace Binsoft.Ecoparts.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Materials");
+
+            migrationBuilder.DropTable(
+                name: "Shapes");
         }
     }
 }

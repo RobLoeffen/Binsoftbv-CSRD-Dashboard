@@ -1,76 +1,106 @@
-import router from '@/router'
-import type { ActiveElement, ChartEvent } from 'chart.js'
+import type { EChartsOption } from 'echarts'
 
 const getColorByValue = (value: number): string => {
-  if (value > 75) return '#68c14e'
-  if (value >= 40) return '#f7b13c'
-  if (value >= 1) return '#ba175e'
-  return '#3b82f6'
+  if (value > 75) return '#ABD006'
+  if (value >= 40) return '#FCFF66'
+  if (value >= 1) return '#FF967E'
+  return '#D6F5F2'
 }
 
 export const createPieChartConfig = (
   labels: string[],
   dataValues: number[],
   title: string,
-  onClickHandler?: (index: number) => void,
-) => {
+  _onClickHandler?: (index: number) => void,
+): EChartsOption => {
   return {
-    data: {
-      labels,
-      datasets: [
-        {
-          backgroundColor: dataValues.map(getColorByValue),
-          data: dataValues,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: {
-          top: 10,
-          bottom: 10,
-          left: 10,
-          right: 10,
-        },
+    title: {
+      text: title,
+      subtext: 'Verdeling voortgang per fase',
+      left: 'center',
+      top: 8,
+      textStyle: {
+        color: '#E7F9F7',
+        fontSize: 16,
+        fontWeight: 700,
+        fontFamily: 'ui-monospace, monospace',
       },
-      plugins: {
-        title: {
-          display: true,
-          text: title,
-          color: '#ffffff',
-          font: {
-            size: 18,
-          },
-        },
-        legend: {
-          display: true,
-          labels: {
-            color: '#ffffff',
-            padding: 5,
-            boxWidth: 20,
-            boxHeight: 20,
-          },
-        },
-      },
-      onClick: (evt: ChartEvent, elements: ActiveElement[]) => {
-        if (!elements.length) return
-        const index = elements[0]?.index ?? 0
-        if (onClickHandler) {
-          onClickHandler(index)
-        }
+      subtextStyle: {
+        color: '#8ABFB8',
+        fontSize: 11,
+        fontFamily: 'ui-monospace, monospace',
       },
     },
+    tooltip: {
+      trigger: 'item',
+      formatter: '{b} : {c} ({d}%)',
+      backgroundColor: 'rgba(15, 30, 28, 0.92)',
+      borderWidth: 1,
+      textStyle: {
+        color: '#E7F9F7',
+        fontSize: 13,
+        fontFamily: 'ui-monospace, monospace',
+      },
+    },
+    legend: {
+      orient: 'vertical',
+      right: 'right',
+      textStyle: {
+        color: '#E7F9F7',
+      },
+    },
+    series: [
+      {
+        name: title,
+        type: 'pie',
+        radius: ['42%', '70%'],
+        center: ['50%', '52%'],
+        avoidLabelOverlap: true,
+        padAngle: 3,
+        itemStyle: {
+          borderRadius: 6,
+          borderColor: 'rgba(15, 30, 28, 0.8)',
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: 'outside',
+          color: '#8ABFB8',
+          fontSize: 11,
+          fontFamily: 'ui-monospace, monospace',
+          formatter: '{b}\n{d}%',
+          lineHeight: 16,
+        },
+        data: labels.map((label, i) => {
+          const color = getColorByValue(dataValues[i] ?? 0)
+          return {
+            name: label,
+            value: dataValues[i] ?? 0,
+            itemStyle: { color },
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 24,
+                shadowOffsetX: 0,
+                shadowColor: color,
+                borderWidth: 3,
+              },
+            },
+          }
+        }),
+        emphasis: {
+          scale: true,
+          scaleSize: 8,
+          label: {
+            show: true,
+            fontSize: 13,
+            fontWeight: 700,
+            color: '#E7F9F7',
+          },
+        },
+      },
+    ],
+    animation: true,
+    animationDuration: 1000,
+    animationEasing: 'cubicOut',
   }
 }
-
-const mainLabels = ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5']
-const mainDataValues = [40, 20, 80, 10, 50]
-
-const mainConfig = createPieChartConfig(mainLabels, mainDataValues, 'CSRD fases', (index) => {
-  router.push(`/fase/${index + 1}`)
-})
-
-export const data = mainConfig.data
-export const options = mainConfig.options

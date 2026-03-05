@@ -6,38 +6,41 @@ namespace Binsoft.Ecoparts.Domain.Entities
     {
         public EcopartId Id { get; private set; }
         public string Name { get; private set; } = string.Empty;
-
         public MaterialId MaterialId { get; private set; }
-
-        public Shape Shape { get; private set; }
+        public ShapeId ShapeId { get; private set; }
+        public Dimension Dimension { get; private set; }
 
         private Ecopart() 
         {
             Id = new EcopartId(Guid.NewGuid());
             Name = string.Empty;
             MaterialId = null!;
-            Shape = null!;
+            ShapeId = null!;
+            Dimension = null!;
         }
 
-        public Ecopart(string name, MaterialId materialId, Shape shape)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty", nameof(name));
-            
+        public Ecopart(string name, MaterialId materialId, ShapeId shapeId, Dimension dimension)
+        {       
+            ArgumentException.ThrowIfNullOrWhiteSpace(name);
+            ArgumentNullException.ThrowIfNull(materialId);
+            ArgumentNullException.ThrowIfNull(shapeId);
+            ArgumentNullException.ThrowIfNull(dimension);
+
             Id = new EcopartId(Guid.NewGuid());
             Name = name;
-            MaterialId = materialId ?? throw new ArgumentNullException(nameof(materialId));
-            Shape = shape ?? throw new ArgumentNullException(nameof(shape));
+            MaterialId = materialId;
+            ShapeId = shapeId;
+            Dimension = dimension;
         }
 
-        public double CalculateMass(Material material)
+        public double CalculateMass(Shape shape, Material material)
         {
-            return Shape.CalculateVolume() * material.Density;
+            return shape.CalculateVolume(Dimension) * material.Density;
         }
 
-        public double CalculateCarbonFootprint(Material material)
+        public double CalculateCarbonFootprint(Shape shape, Material material)
         {
-            return CalculateMass(material) * material.EmissionFactor;
+            return CalculateMass(shape, material) * material.EmissionFactor;
         }
     }
 }

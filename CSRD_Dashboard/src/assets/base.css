@@ -8,6 +8,19 @@
   --vt-c-black-soft: #222222;
   --vt-c-black-mute: #282828;
 
+  /* custom forest colors */
+  --vt-c-dashboard-background: #171F12;
+  --vt-c-widget-title-background: #1F2E2C;
+  --vt-c-widget-background: #1F2E2C;
+  --vt-c-primary-text: #E7F9F7;
+  --vt-c-secondary-text: #8DE2DB;
+  --vt-c-accent: #ABD006;
+
+  /* Chart colors */
+  --chart-color-1: #FCFF66;
+  --chart-color-2: #ABD006;
+  --chart-color-negative: #FF967E;
+
   --vt-c-dark-blue: #140f21;
   --vt-c-grey: #201b2c;
   --vt-c-grey-soft: #272136;
@@ -42,7 +55,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--vt-c-dark-blue);
+    --color-background: var(--vt-c-dashboard-background);
     --color-background-soft: var(--vt-c-black-soft);
     --color-background-mute: var(--vt-c-black-mute);
 

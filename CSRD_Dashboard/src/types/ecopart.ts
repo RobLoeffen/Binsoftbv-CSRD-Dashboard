@@ -27,3 +27,13 @@ export interface EcopartDetail extends Ecopart {
   mass: number
   carbonFootprint: number
 }
+
+export interface ShapeCount {
+  shapeType: string
+  count: number
+}
+
+export interface ShapeDistribution {
+  materialName: string
+  shapeCounts: ShapeCount[]
+}

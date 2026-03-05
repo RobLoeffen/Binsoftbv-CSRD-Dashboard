@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useEcoparts } from '@/composables/useEcoparts'
+import { useEcopartsByMaterial } from '@/composables/useEcopartsByMaterial'
 import type { Ecopart } from '@/types/ecopart'
 
 const route = useRoute()
 const router = useRouter()
 
-const materialId = computed(() => route.params.materialId as string)
+const material = computed(() => route.query.material as string | undefined)
+const shape = computed(() => route.query.shape as string | undefined)
 
-const { ecoparts, loading, error, fetchEcoparts } = useEcoparts()
+const { ecoparts, loading, error, fetchByMaterial } = useEcopartsByMaterial()
 
 onMounted(() => {
-  fetchEcoparts()
+  if (material.value) {
+    fetchByMaterial(material.value, shape.value)
+  }
 })
 
 const handleEcopartClick = (ecopart: Ecopart) => {
@@ -35,7 +38,9 @@ const goBack = () => {
           class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-xl rounded-lg"
         ></div>
         <h1 class="text-3xl font-mono font-bold text-white relative z-10">
-          Ecoparts {{ materialId }}
+          Ecoparts
+          <span v-if="material" class="text-purple-300">{{ material }}</span>
+          <span v-if="shape" class="text-blue-300"> · {{ shape }}</span>
         </h1>
         <button
           @click="goBack"

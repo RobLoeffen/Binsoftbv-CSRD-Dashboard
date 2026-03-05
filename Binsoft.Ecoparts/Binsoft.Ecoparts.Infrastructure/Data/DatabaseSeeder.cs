@@ -32,15 +32,21 @@ namespace Binsoft.Ecoparts.Infrastructure.Data
             await _context.Materials.AddRangeAsync(PET, HDPE, LDPE, PP, PS, PVC, PLA);
             await _context.SaveChangesAsync();
 
+            var cylinderShape = new Shape(ShapeType.Cylinder);
+            var rectangularShape = new Shape(ShapeType.Rectangular);
+            await _context.Shapes.AddRangeAsync(cylinderShape, rectangularShape);
+            await _context.SaveChangesAsync();
+
             var ecoparts = new List<Ecopart>
             {
-                new Ecopart("PET plate A", PET.Id, Shape.Rectangular(0.1, 0.1, 0.15)),
-                new Ecopart("HDPE plate A", HDPE.Id, Shape.Cylinder(0.05, 0.2)),
-                new Ecopart("LDPE plate A", LDPE.Id, Shape.Rectangular(0.1, 0.1, 0.15)),
-                new Ecopart("PP plate A", PP.Id, Shape.Cylinder(0.05, 0.2)),
-                new Ecopart("PS plate A", PS.Id, Shape.Rectangular(0.1, 0.1, 0.15)),
-                new Ecopart("PVC plate A", PVC.Id, Shape.Cylinder(0.05, 0.2)),
-                new Ecopart("PLA plate A", PLA.Id, Shape.Rectangular(0.1, 0.1, 0.15)),
+                new Ecopart("PET plate A", PET.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
+                new Ecopart("PET plate A", PET.Id, rectangularShape.Id, Dimension.ForRectangular(0.05, 0.8, 0.2)),
+                new Ecopart("HDPE plate A", HDPE.Id, rectangularShape.Id, Dimension.ForRectangular(10, 20, 30)),
+                new Ecopart("LDPE plate A", LDPE.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
+                new Ecopart("PP plate A", PP.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
+                new Ecopart("PS plate A", PS.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
+                new Ecopart("PVC plate A", PVC.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
+                new Ecopart("PLA plate A", PLA.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
             };
 
             await _context.Ecoparts.AddRangeAsync(ecoparts);

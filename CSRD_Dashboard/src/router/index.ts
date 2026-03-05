@@ -1,6 +1,7 @@
 import DashboardCRSD from '@/components/DashboardCRSD.vue'
 import EcopartDetail from '@/components/EcopartDetail.vue'
 import EcopartsList from '@/components/EcopartsList.vue'
+import EcopartShapes from '@/components/EcopartShapes.vue'
 import FaseDetails from '@/components/FaseDetails.vue'
 import MaterialDetails from '@/components/MaterialDetails.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -24,15 +25,20 @@ const routes = [
     props: true,
   },
   {
-    path: '/ecoparts/:materialId',
-    name: 'EcopartsList',
-    component: EcopartsList,
-    props: true,
-  },
-  {
     path: '/ecoparts/detail/:ecopartId',
     name: 'EcopartDetail',
     component: EcopartDetail,
+    props: true,
+  },
+  {
+    path: '/ecoparts',
+    name: 'EcopartsList',
+    component: EcopartsList,
+  },
+  {
+    path: '/shapes/:materialName',
+    name: 'EcopartShapes',
+    component: EcopartShapes,
     props: true,
   },
 ]

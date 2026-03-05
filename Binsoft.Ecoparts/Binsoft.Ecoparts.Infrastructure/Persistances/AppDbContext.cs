@@ -11,6 +11,7 @@ namespace Binsoft.Ecoparts.Infrastructure.Persistances
 
         public DbSet<Ecopart> Ecoparts { get; set; } = null!;
         public DbSet<Material> Materials { get; set; } = null!;
+        public DbSet<Shape> Shapes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

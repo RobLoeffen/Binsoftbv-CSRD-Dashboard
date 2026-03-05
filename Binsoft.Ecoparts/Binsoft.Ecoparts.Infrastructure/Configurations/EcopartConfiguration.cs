@@ -22,25 +22,18 @@ namespace Binsoft.Ecoparts.Infrastructure.Configurations
                     value => new MaterialId(value))
                 .IsRequired();
 
-            builder.OwnsOne(e => e.Shape, shape =>
+            builder.Property(e => e.ShapeId)
+                .HasConversion(
+                    id => id.Value,
+                    value => new ShapeId(value))
+                .IsRequired();
+
+            builder.OwnsOne(e => e.Dimension, d =>
             {
-                shape.Property(s => s.ShapeType)
-                    .HasColumnName("ShapeType")
-                    .HasConversion<string>()
-                    .HasMaxLength(50)
-                    .IsRequired();
-
-                shape.Property(s => s.Height)
-                    .HasColumnName("ShapeHeight");
-
-                shape.Property(s => s.Length)
-                    .HasColumnName("ShapeLength");
-
-                shape.Property(s => s.Width)
-                    .HasColumnName("ShapeWidth");
-
-                shape.Property(s => s.Radius)
-                    .HasColumnName("ShapeRadius");
+                d.Property(dim => dim.Height).HasColumnName("DimHeight").IsRequired();
+                d.Property(dim => dim.Length).HasColumnName("DimLength").IsRequired(false);
+                d.Property(dim => dim.Width).HasColumnName("DimWidth").IsRequired(false);
+                d.Property(dim => dim.Radius).HasColumnName("DimRadius").IsRequired(false);
             });
         }
     }

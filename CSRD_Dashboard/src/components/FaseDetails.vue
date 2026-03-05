@@ -42,16 +42,17 @@ const currentFaseData = computed(() => {
   return data as { labels: string[]; values: number[]; title: string }
 })
 
-const chartConfig = computed(() =>
+const pieConfig = computed(() =>
   createPieChartConfig(
     currentFaseData.value.labels,
     currentFaseData.value.values,
     currentFaseData.value.title,
-    (index) => {
-      router.push(`/materials/${index + 1}`)
-    },
   ),
 )
+
+function handlePieClick(params: { dataIndex: number }) {
+  router.push(`/materials/${params.dataIndex + 1}`)
+}
 
 const goBack = () => {
   router.back()
@@ -94,10 +95,10 @@ const goBack = () => {
 
       <div class="flex-1 pb-2">
         <section
-          class="h-full rounded-2xl bg-[var(--vt-c-grey-soft)] p-4 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] cursor-pointer group relative overflow-hidden"
+          class="h-[450px] rounded-2xl bg-[var(--vt-c-grey-soft)] p-4 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] cursor-pointer group relative overflow-hidden"
           aria-label="Pie chart section"
         >
-          <ChartWrapper type="pie" :data="chartConfig.data" :options="chartConfig.options" />
+          <ChartWrapper :option="pieConfig" @click="handlePieClick" />
         </section>
       </div>
     </section>

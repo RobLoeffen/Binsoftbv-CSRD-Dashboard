@@ -30,6 +30,9 @@ namespace Binsoft.Ecoparts.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("ShapeId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Ecoparts");
@@ -56,34 +59,43 @@ namespace Binsoft.Ecoparts.Infrastructure.Migrations
                     b.ToTable("Materials", (string)null);
                 });
 
+            modelBuilder.Entity("Binsoft.Ecoparts.Domain.Entities.Shape", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShapeType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shapes", (string)null);
+                });
+
             modelBuilder.Entity("Binsoft.Ecoparts.Domain.Entities.Ecopart", b =>
                 {
-                    b.OwnsOne("Binsoft.Ecoparts.Domain.ValueObjects.Shape", "Shape", b1 =>
+                    b.OwnsOne("Binsoft.Ecoparts.Domain.ValueObjects.Dimension", "Dimension", b1 =>
                         {
                             b1.Property<Guid>("EcopartId")
                                 .HasColumnType("TEXT");
 
                             b1.Property<double>("Height")
                                 .HasColumnType("REAL")
-                                .HasColumnName("ShapeHeight");
+                                .HasColumnName("DimHeight");
 
                             b1.Property<double?>("Length")
                                 .HasColumnType("REAL")
-                                .HasColumnName("ShapeLength");
+                                .HasColumnName("DimLength");
 
                             b1.Property<double?>("Radius")
                                 .HasColumnType("REAL")
-                                .HasColumnName("ShapeRadius");
-
-                            b1.Property<string>("ShapeType")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("TEXT")
-                                .HasColumnName("ShapeType");
+                                .HasColumnName("DimRadius");
 
                             b1.Property<double?>("Width")
                                 .HasColumnType("REAL")
-                                .HasColumnName("ShapeWidth");
+                                .HasColumnName("DimWidth");
 
                             b1.HasKey("EcopartId");
 
@@ -93,7 +105,7 @@ namespace Binsoft.Ecoparts.Infrastructure.Migrations
                                 .HasForeignKey("EcopartId");
                         });
 
-                    b.Navigation("Shape")
+                    b.Navigation("Dimension")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

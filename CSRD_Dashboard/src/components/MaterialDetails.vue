@@ -43,12 +43,14 @@ const pieChartData = [
 ]
 
 const chartConfigs = computed(() =>
-  pieChartData.map((chartData, chartIndex) =>
-    createPieChartConfig(chartData.labels, chartData.values, chartData.title, (materialId) => {
-      router.push(`/ecoparts/${chartIndex + 1}-material-${materialId}`)
-    }),
+  pieChartData.map((chartData) =>
+    createPieChartConfig(chartData.labels, chartData.values, chartData.title),
   ),
 )
+
+const navigateToShapes = (materialTitle: string) => {
+  router.push(`/shapes/${materialTitle}`)
+}
 
 const goBack = () => {
   router.back()
@@ -95,10 +97,11 @@ const goBack = () => {
         <section
           v-for="(config, index) in chartConfigs"
           :key="index"
-          class="rounded-2xl bg-[var(--vt-c-grey-soft)] p-4 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer group relative overflow-hidden"
+          class="h-[300px] rounded-2xl bg-[var(--vt-c-grey-soft)] p-4 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer group relative overflow-hidden"
           :aria-label="`Pie chart ${index + 1}`"
+          @click="navigateToShapes(pieChartData[index]?.title ?? '')"
         >
-          <ChartWrapper type="pie" :data="config.data" :options="config.options" />
+          <ChartWrapper :option="config" />
         </section>
       </div>
     </section>

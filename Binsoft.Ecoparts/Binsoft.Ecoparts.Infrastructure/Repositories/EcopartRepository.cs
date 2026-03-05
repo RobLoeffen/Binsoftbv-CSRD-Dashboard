@@ -15,8 +15,24 @@ namespace Binsoft.Ecoparts.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Ecopart>> GetAllAsync() => 
+        public async Task<IEnumerable<Ecopart>> GetAllAsync() =>
             await _context.Ecoparts.ToListAsync();
+
+        public async Task<IEnumerable<Ecopart>> GetByMaterialIdAsync(MaterialId materialId, ShapeType? shapeType = null)
+        {
+            var query = _context.Ecoparts.Where(e => e.MaterialId == materialId);
+
+            if (shapeType.HasValue)
+            {
+                var shapeIds = _context.Shapes
+                    .Where(s => s.ShapeType == shapeType.Value)
+                    .Select(s => s.Id);
+
+                query = query.Where(e => shapeIds.Contains(e.ShapeId));
+            }
+
+            return await query.ToListAsync();
+        }
 
         public async Task<Ecopart?> GetByIdAsync(EcopartId id) => 
             await _context.Ecoparts.FirstOrDefaultAsync(e => e.Id == id);
