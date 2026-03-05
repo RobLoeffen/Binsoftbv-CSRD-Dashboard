@@ -3,6 +3,9 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ChartWrapper from './Dashboard/ChartWrapper.vue'
 import { createPieChartConfig } from './Dashboard/pieChartConfig'
+import PageLayout from './layout/PageLayout.vue'
+import WidgetCard from './layout/WidgetCard.vue'
+import BackButton from './layout/BackButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -42,64 +45,42 @@ const currentFaseData = computed(() => {
   return data as { labels: string[]; values: number[]; title: string }
 })
 
-const chartConfig = computed(() =>
+const pieConfig = computed(() =>
   createPieChartConfig(
     currentFaseData.value.labels,
     currentFaseData.value.values,
     currentFaseData.value.title,
-    (index) => {
-      router.push(`/materials/${index + 1}`)
-    },
   ),
 )
 
-const goBack = () => {
-  router.back()
+function handlePieClick(params: { dataIndex: number }) {
+  router.push(`/materials/${params.dataIndex + 1}`)
 }
 </script>
 
 <template>
-  <div class="min-h-screen w-full p-4 sm:p-6 md:p-8 flex items-center justify-center">
-    <section
-      class="w-full max-w-[1250px] rounded-3xl bg-[var(--vt-c-grey)] p-4 sm:p-6 flex flex-col gap-4 sm:gap-6"
-      aria-label="Dashboard content area"
+  <PageLayout :title="`Fase ${faseId}`">
+    <template #actions>
+      <BackButton />
+    </template>
+
+    <WidgetCard class="px-6 py-8 text-center hover:shadow-xl" aria-label="Introduction section">
+      <p class="font-mono md:text-sm font-semibold text-[var(--vt-c-primary-text)]">
+        De Corporate Sustainability Reporting Directive (CSRD) is een Europese richtlijn die
+        bedrijven verplicht om uitgebreid te rapporteren over hun impact op milieu, mens en bestuur
+        (ESG). Het doel is om meer transparantie te creëren over duurzaamheidsprestaties en
+        greenwashing tegen te gaan. Grote bedrijven en later ook beursgenoteerde mkb-bedrijven
+        moeten volgens vaste Europese standaarden (ESRS) rapporteren, waarbij de informatie
+        bovendien gecontroleerd wordt door een accountant. Zo wil de Europese Unie duurzame
+        bedrijfsvoering stimuleren en investeerders beter informeren.
+      </p>
+    </WidgetCard>
+
+    <WidgetCard
+      class="h-[450px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+      aria-label="Pie chart section"
     >
-      <header class="relative flex items-center justify-between">
-        <div
-          class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-xl rounded-lg"
-        ></div>
-        <h1 class="text-3xl font-mono font-bold text-white relative z-10">Fase {{ faseId }}</h1>
-        <button
-          @click="goBack"
-          class="px-4 py-2 bg-[var(--vt-c-grey-soft)] text-white rounded-lg hover:bg-opacity-80 cursor-pointer transition-colors font-mono relative z-10 shadow-lg border border-white/5 hover:border-white/10 hover:shadow-xl"
-        >
-          ← Back
-        </button>
-      </header>
-
-      <section
-        class="w-full rounded-2xl bg-[var(--vt-c-grey-soft)] px-6 py-8 text-center shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-xl"
-        aria-label="Introduction section"
-      >
-        <p class="font-mono md:text-sm font-semibold text-white">
-          De Corporate Sustainability Reporting Directive (CSRD) is een Europese richtlijn die
-          bedrijven verplicht om uitgebreid te rapporteren over hun impact op milieu, mens en
-          bestuur (ESG). Het doel is om meer transparantie te creëren over duurzaamheidsprestaties
-          en greenwashing tegen te gaan. Grote bedrijven en later ook beursgenoteerde mkb-bedrijven
-          moeten volgens vaste Europese standaarden (ESRS) rapporteren, waarbij de informatie
-          bovendien gecontroleerd wordt door een accountant. Zo wil de Europese Unie duurzame
-          bedrijfsvoering stimuleren en investeerders beter informeren.
-        </p>
-      </section>
-
-      <div class="flex-1 pb-2">
-        <section
-          class="h-full rounded-2xl bg-[var(--vt-c-grey-soft)] p-4 shadow-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] cursor-pointer group relative overflow-hidden"
-          aria-label="Pie chart section"
-        >
-          <ChartWrapper type="pie" :data="chartConfig.data" :options="chartConfig.options" />
-        </section>
-      </div>
-    </section>
-  </div>
+      <ChartWrapper :option="pieConfig" @click="handlePieClick" />
+    </WidgetCard>
+  </PageLayout>
 </template>

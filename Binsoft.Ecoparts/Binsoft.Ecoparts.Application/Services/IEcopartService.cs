@@ -6,5 +6,6 @@ namespace Binsoft.Ecoparts.Application.Services
     {
         Task<IEnumerable<EcopartListResponse>> GetAllEcopartsAsync();
         Task<EcopartDetailResponse?> GetEcopartByIdAsync(Guid id);
+        Task<IEnumerable<EcopartListResponse>?> GetEcopartsByMaterialAsync(string materialName, string? shapeType = null);
     }
 }

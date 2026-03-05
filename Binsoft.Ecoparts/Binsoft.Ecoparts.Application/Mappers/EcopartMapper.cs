@@ -6,33 +6,33 @@ namespace Binsoft.Ecoparts.Application.Mappers
 {
     public class EcopartMapper : IEcopartMapper
     {
-        public EcopartListResponse ToListResponse(Ecopart ecopart, Material material)
+        public EcopartListResponse ToListResponse(Ecopart ecopart, Shape shape, Material material)
         {
             return new EcopartListResponse
             {
                 Id = ecopart.Id.Value,
                 Name = ecopart.Name,
                 Material = MapToMaterialDto(material),
-                Shape = MapToShapeDto(ecopart.Shape)
+                Shape = MapToShapeDto(shape, ecopart.Dimension)
             };
         }
 
-        public EcopartDetailResponse ToDetailResponse(Ecopart ecopart, Material material)
+        public EcopartDetailResponse ToDetailResponse(Ecopart ecopart, Shape shape, Material material)
         {
             return new EcopartDetailResponse
             {
                 Id = ecopart.Id.Value,
                 Name = ecopart.Name,
                 Material = MapToMaterialDto(material),
-                Shape = MapToShapeDto(ecopart.Shape),
-                Mass = ecopart.CalculateMass(material),
-                CarbonFootprint = ecopart.CalculateCarbonFootprint(material)
+                Shape = MapToShapeDto(shape, ecopart.Dimension),
+                Mass = ecopart.CalculateMass(shape, material),
+                CarbonFootprint = ecopart.CalculateCarbonFootprint(shape, material)
             };
         }
 
-        public IEnumerable<EcopartListResponse> ToListResponse(IEnumerable<Ecopart> ecoparts, IReadOnlyDictionary<MaterialId, Material> materials)
+        public IEnumerable<EcopartListResponse> ToListResponse(IEnumerable<Ecopart> ecoparts, IReadOnlyDictionary<MaterialId, Material> materials, IReadOnlyDictionary<ShapeId, Shape> shapes)
         {
-            return ecoparts.Select(e => ToListResponse(e, materials[e.MaterialId]));
+            return ecoparts.Select(e => ToListResponse(e, shapes[e.ShapeId], materials[e.MaterialId]));
         }
 
         private static MaterialDto MapToMaterialDto(Material material)
@@ -45,10 +45,10 @@ namespace Binsoft.Ecoparts.Application.Mappers
             };
         }
 
-        private static ShapeDto MapToShapeDto(Shape shape) => new()
+        private static ShapeDto MapToShapeDto(Shape shape, Dimension dimension) => new()
         {
             ShapeType = shape.ShapeType.ToString(),
-            Dimensions = shape.GetDimensions()
+            Dimensions = dimension.GetDimensions()
         };
     }
 }

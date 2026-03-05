@@ -22,6 +22,27 @@ namespace Binsoft.Ecoparts.Api.Controllers
             return Ok(ecoparts);
         }
 
+        [HttpGet("by-material")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetEcopartsByMaterial([FromQuery] string materialName, [FromQuery] string? shapeType)
+        {
+            try
+            {
+                var result = await _ecopartService.GetEcopartsByMaterialAsync(materialName, shapeType);
+
+                if (result == null)
+                    return NotFound(new { message = $"Material '{materialName}' was not found." });
+
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

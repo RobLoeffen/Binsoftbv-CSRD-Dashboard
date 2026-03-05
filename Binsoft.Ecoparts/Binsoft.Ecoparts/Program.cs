@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IEcopartRepository, EcopartRepository>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
+builder.Services.AddScoped<IShapeRepository, ShapeRepository>();
 builder.Services.AddScoped<IEcopartMapper, EcopartMapper>();
 builder.Services.AddScoped<IEcopartService, EcopartService>();
 builder.Services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();

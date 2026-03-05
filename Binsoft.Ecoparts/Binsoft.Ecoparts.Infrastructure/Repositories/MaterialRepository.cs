@@ -18,6 +18,9 @@ public class MaterialRepository : IMaterialRepository
     public async Task<Material?> GetByIdAsync(MaterialId id) =>
         await _context.Materials.FirstOrDefaultAsync(m => m.Id == id);
 
+    public async Task<Material?> GetByNameAsync(string name) =>
+        await _context.Materials.FirstOrDefaultAsync(m => m.Name.ToLower() == name.ToLower());
+
     public async Task<IReadOnlyDictionary<MaterialId, Material>> GetByIdsAsync(IEnumerable<MaterialId> ids)
     {
         var idList = ids.ToList();
