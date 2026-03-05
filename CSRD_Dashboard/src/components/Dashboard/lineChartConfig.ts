@@ -13,8 +13,6 @@ export const createLineChartConfig = (
   title: string,
   _onClickHandler?: (index: number) => void,
 ): EChartsOption => {
-//   const minValue = Math.min(...dataValues)
-//   const minIndex = dataValues.indexOf(minValue)
 
   const tooltipFormatter = (params: CallbackDataParams | CallbackDataParams[]): string => {
     const raw = Array.isArray(params) ? params[0] : params
@@ -168,44 +166,6 @@ export const createLineChartConfig = (
             ],
           },
         },
-        // markPoint: {
-        //   data: [
-        //     {
-        //       name: 'Laagste uitstoot',
-        //       coord: [minIndex, minValue],
-        //       value: minValue,
-        //       itemStyle: { color: '#ABD006' },
-        //       label: {
-        //         show: true,
-        //         position: 'top',
-        //         color: '#E7F9F7',
-        //         fontSize: 11,
-        //         fontFamily: 'ui-monospace, monospace',
-        //         fontWeight: 700,
-        //         formatter: '{c}',
-        //       },
-        //       symbol: 'pin',
-        //       symbolSize: 36,
-        //     },
-        //   ],
-        // },
-        // markLine: {
-        //   silent: true,
-        //   data: [{ type: 'average' }],
-        //   lineStyle: {
-        //     color: '#8ABFB8',
-        //     type: 'dashed',
-        //     width: 1,
-        //     opacity: 0.5,
-        //   },
-        //   label: {
-        //     position: 'insideEndTop',
-        //     color: '#8ABFB8',
-        //     fontSize: 10,
-        //     fontFamily: 'ui-monospace, monospace',
-        //     formatter: 'Gem: {c}',
-        //   },
-        // },
       },
     ],
     animation: true,
