@@ -46,7 +46,9 @@ export const createPieChartConfig = (
       orient: 'vertical',
       right: 'right',
       textStyle: {
-        color: '#E7F9F7',
+        color: '#8ABFB8',
+        fontFamily: 'ui-monospace, monospace',
+        fontSize: 11, 
       },
     },
     series: [

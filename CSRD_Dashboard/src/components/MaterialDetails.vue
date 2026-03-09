@@ -80,9 +80,8 @@ const navigateToShapes = (materialTitle: string) => {
         :key="index"
         class="h-[300px] p-4 hover:shadow-2xl hover:scale-[1.02] cursor-pointer"
         :aria-label="`Pie chart ${index + 1}`"
-        @click="navigateToShapes(pieChartData[index]?.title ?? '')"
       >
-        <ChartWrapper :option="config" />
+        <ChartWrapper :option="config" @click="navigateToShapes(pieChartData[index]?.title ?? '')" />
       </WidgetCard>
     </div>
   </PageLayout>

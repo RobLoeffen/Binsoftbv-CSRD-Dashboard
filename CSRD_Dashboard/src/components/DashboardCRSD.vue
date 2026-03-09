@@ -3,13 +3,16 @@ import ChartWrapper from './Dashboard/ChartWrapper.vue'
 import { createPieChartConfig } from './Dashboard/pieChartConfig'
 import { createBarChartConfig } from './Dashboard/barChartConfig'
 import { createLineChartConfig } from './Dashboard/lineChartConfig'
+import { createRadarChartConfig } from './Dashboard/radarChartConfig'
 import PageLayout from './layout/PageLayout.vue'
 import WidgetCard from './layout/WidgetCard.vue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+
+const route = useRouter()
 
 const pieConfig = createPieChartConfig(
-  ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5'],
-  [40, 20, 80, 10, 50],
+  ['Scope 1', 'Scope 2', 'Scope 3 (Downstream)', 'Scope 3 (Upstream)'],
+  [40, 20, 80, 20],
   'CSRD fases',
 )
 
@@ -26,7 +29,12 @@ const lineConfig = createLineChartConfig(
   'CO₂-uitstoot per jaar (CO₂e/KG)',
 )
 
-// TODO: replace with backend data
+const radarConfig = createRadarChartConfig(
+  ['Fase 1', 'Fase 2', 'Fase 3', 'Fase 4', 'Fase 5'],
+  [40, 20, 80, 10, 50],
+  'CSRD fases',
+)
+
 const stats = [
   {
     label: 'Totale uitstoot',
@@ -49,7 +57,7 @@ const stats = [
 ]
 
 function handlePieClick(params: { dataIndex: number }) {
-  router.push(`/fase/${params.dataIndex + 1}`)
+  route.push(`/fase/${params.dataIndex + 1}`)
 }
 </script>
 
@@ -88,21 +96,27 @@ function handlePieClick(params: { dataIndex: number }) {
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[400px]">
       <WidgetCard
         class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        aria-label="Line chart section"
+      >
+        <ChartWrapper :option="lineConfig" />
+      </WidgetCard>
+       <WidgetCard
+        class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        aria-label="Radar chart section"
+      >
+        <ChartWrapper :option="radarConfig" />
+      </WidgetCard>
+      <WidgetCard
+        class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
         aria-label="Bar chart section"
       >
         <ChartWrapper :option="barConfig" />
       </WidgetCard>
       <WidgetCard
-        class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        class="min-h-[500px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
         aria-label="Pie chart section"
       >
         <ChartWrapper :option="pieConfig" @click="handlePieClick" />
-      </WidgetCard>
-      <WidgetCard
-        class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
-        aria-label="Line chart section"
-      >
-        <ChartWrapper :option="lineConfig" />
       </WidgetCard>
     </div>
   </PageLayout>

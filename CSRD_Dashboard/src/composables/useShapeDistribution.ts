@@ -1,13 +1,12 @@
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import type { Ecopart, ShapeDistribution } from '@/types/ecopart'
+import { useFetch } from './useFetch'
 
 export function useShapeDistribution() {
-  const ecoparts = ref<Ecopart[]>([])
-  const loading = ref(false)
-  const error = ref<string | null>(null)
+  const { data: ecoparts, loading, error, execute } = useFetch<Ecopart[]>()
 
   const distribution = computed<ShapeDistribution | null>(() => {
-    if (ecoparts.value.length === 0) return null
+    if (!ecoparts.value || ecoparts.value.length === 0) return null
 
     const materialName = ecoparts.value[0]?.material.name ?? ''
     const shapeCounts = new Map<string, number>()
@@ -27,19 +26,8 @@ export function useShapeDistribution() {
   })
 
   async function fetchDistribution(materialName: string) {
-    loading.value = true
-    error.value = null
-    try {
-      const url = `/api/Ecopart/by-material?materialName=${encodeURIComponent(materialName)}`
-      const response = await fetch(url)
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-      ecoparts.value = await response.json()
-    } catch (e) {
-      error.value = e instanceof Error ? e.message : 'Failed to fetch shape distribution'
-    } finally {
-      loading.value = false
-    }
+    const url = `/api/Ecopart/by-material?materialName=${encodeURIComponent(materialName)}`
+    await execute(url)
   }
-
   return { distribution, loading, error, fetchDistribution }
 }
