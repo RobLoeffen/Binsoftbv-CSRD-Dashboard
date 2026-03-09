@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ChartWrapper from './Dashboard/ChartWrapper.vue'
 import { createPieChartConfig } from './Dashboard/pieChartConfig'
+import { getBorderColorByValue, getTextColorByValue } from '../utils/colorScale'
 import PageLayout from './layout/PageLayout.vue'
 import WidgetCard from './layout/WidgetCard.vue'
 import BackButton from './layout/BackButton.vue'
@@ -16,27 +17,22 @@ const faseData: Record<string, { labels: string[]; values: number[]; title: stri
   '1': {
     labels: ['Sub A', 'Sub B', 'Sub C', 'Sub D'],
     values: [30, 45, 80, 25],
-    title: 'Fase 1 - Details',
+    title: 'Scope 1 - Details',
   },
   '2': {
     labels: ['Item X', 'Item Y', 'Item Z'],
     values: [50, 70, 40],
-    title: 'Fase 2 - Details',
+    title: 'Scope 2 - Details',
   },
   '3': {
-    labels: ['Grondstofwinning', 'Productie', 'Transport', 'Gebruik', 'Verbranding', 'Recycling'],
-    values: [85, 90, 75, 80, 70, 100],
-    title: 'Fase 3 - Co2 uitstoot',
+    labels: ['Verbranding', 'Hergebruik', 'Onderhoud', 'Transport'],
+    values: [85, 90, 75, 20],
+    title: 'Scope 3 - Downstream Details',
   },
   '4': {
     labels: ['Section A', 'Section B'],
     values: [20, 80],
-    title: 'Fase 4 - Details',
-  },
-  '5': {
-    labels: ['Component 1', 'Component 2', 'Component 3'],
-    values: [55, 80, 45],
-    title: 'Fase 5 - Details',
+    title: 'Scope 3 - Upstream Details',
   },
 }
 
@@ -59,7 +55,7 @@ function handlePieClick(params: { dataIndex: number }) {
 </script>
 
 <template>
-  <PageLayout :title="`Fase ${faseId}`">
+  <PageLayout :title="`Scope ${faseId}`">
     <template #actions>
       <BackButton />
     </template>
@@ -76,11 +72,40 @@ function handlePieClick(params: { dataIndex: number }) {
       </p>
     </WidgetCard>
 
-    <WidgetCard
-      class="h-[450px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
-      aria-label="Pie chart section"
-    >
-      <ChartWrapper :option="pieConfig" @click="handlePieClick" />
-    </WidgetCard>
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[450px]">
+      <WidgetCard
+        class="h-[450px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        aria-label="Pie chart section"
+      >
+        <ChartWrapper :option="pieConfig" @click="handlePieClick" />
+      </WidgetCard>
+      <WidgetCard
+        class="h-[450px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        aria-label="Pie chart section"
+      >
+        <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <section
+            v-for="(label, index) in currentFaseData.labels"
+            :key="index"
+            class="flex flex-col justify-between p-4 border-2 rounded-xl bg-white/5 hover:bg-white/10 cursor-pointer transition-all duration-200"
+            :class="getBorderColorByValue(currentFaseData.values[index] ?? 0)"
+          >
+            <h3
+              class="font-mono text-xs font-medium uppercase tracking-widest text-[var(--vt-c-secondary-text)] mb-3"
+            >
+              {{ label }}
+            </h3>
+            <p class="font-mono text-3xl font-bold"
+              :class="getTextColorByValue(currentFaseData.values[index] ?? 0)"
+            >
+              {{ currentFaseData.values[index] ?? 0 }}
+              <span class="text-xs font-normal text-[var(--vt-c-secondary-text)]"
+                >CO₂e/KG</span
+              >
+            </p>
+          </section>
+        </div>
+      </WidgetCard>
+    </div>
   </PageLayout>
 </template>

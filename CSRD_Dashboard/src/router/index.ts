@@ -1,44 +1,38 @@
-import DashboardCRSD from '@/components/DashboardCRSD.vue'
-import EcopartDetail from '@/components/EcopartDetail.vue'
-import EcopartsList from '@/components/EcopartsList.vue'
-import EcopartShapes from '@/components/EcopartShapes.vue'
-import FaseDetails from '@/components/FaseDetails.vue'
-import MaterialDetails from '@/components/MaterialDetails.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: DashboardCRSD,
+    component: () => import('@/components/DashboardCRSD.vue'),
   },
   {
     path: '/fase/:faseId',
     name: 'FaseDetails',
-    component: FaseDetails,
+    component: () => import('@/components/FaseDetails.vue'),
     props: true,
   },
   {
     path: '/materials/:materialId',
     name: 'MaterialDetails',
-    component: MaterialDetails,
+    component: () => import('@/components/MaterialDetails.vue'),
     props: true,
   },
   {
     path: '/ecoparts/detail/:ecopartId',
     name: 'EcopartDetail',
-    component: EcopartDetail,
+    component: () => import('@/components/EcopartDetail.vue'),
     props: true,
   },
   {
     path: '/ecoparts',
     name: 'EcopartsList',
-    component: EcopartsList,
+    component: () => import('@/components/EcopartsList.vue'),
   },
   {
     path: '/shapes/:materialName',
     name: 'EcopartShapes',
-    component: EcopartShapes,
+    component: () => import('@/components/EcopartShapes.vue'),
     props: true,
   },
 ]

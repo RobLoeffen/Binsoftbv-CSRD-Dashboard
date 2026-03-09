@@ -57,7 +57,7 @@ const handleEcopartClick = (ecopart: Ecopart) => {
         {{ error }}
       </p>
       <p
-        v-else-if="ecoparts.length === 0"
+        v-else-if="ecoparts && ecoparts.length === 0"
         class="col-span-full text-center text-[#8ABFB8] font-mono"
       >
         No ecoparts found.
