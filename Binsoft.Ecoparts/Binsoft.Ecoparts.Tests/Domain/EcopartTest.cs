@@ -15,7 +15,7 @@ public class EcopartTest
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForRectangular(10, 20, 30);
 
-        var act = new Ecopart(name, materialId, shapeId, dimension);
+        var act = new Ecopart(name, materialId, shapeId, ShapeType.Rectangular, dimension);
 
         act.Id.Should().NotBeNull();
         act.Id.Value.Should().NotBeEmpty();
@@ -37,7 +37,7 @@ public class EcopartTest
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForRectangular(10, 20, 30);
 
-        var act = () => new Ecopart(name!, materialId, shapeId, dimension);
+        var act = () => new Ecopart(name!, materialId, shapeId, ShapeType.Rectangular, dimension);
 
         act.Should().Throw<ArgumentException>();
     }
@@ -51,7 +51,7 @@ public class EcopartTest
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForRectangular(10, 20, 30);
 
-        var act = () => new Ecopart(name, materialId: null!, shapeId, dimension);
+        var act = () => new Ecopart(name, materialId: null!, shapeId, ShapeType.Rectangular, dimension);
 
         act.Should().Throw<ArgumentNullException>();
     }
@@ -65,7 +65,7 @@ public class EcopartTest
         var materialId = new MaterialId(Guid.NewGuid());
         var dimension = Dimension.ForRectangular(10, 20, 30);
 
-        var act = () => new Ecopart(name, materialId, null!, dimension);
+        var act = () => new Ecopart(name, materialId, null!, ShapeType.Rectangular, dimension);
 
        act.Should().Throw<ArgumentNullException>();
     }
@@ -79,7 +79,7 @@ public class EcopartTest
         var materialId = new MaterialId(Guid.NewGuid());
         var shapeId = new ShapeId(Guid.NewGuid());
 
-        var act = () => new Ecopart(name, materialId, shapeId, null!);
+        var act = () => new Ecopart(name, materialId, shapeId, ShapeType.Rectangular, null!);
 
         act.Should().Throw<ArgumentNullException>();
     }
@@ -93,7 +93,7 @@ public class EcopartTest
         var materialId = new MaterialId(Guid.NewGuid());
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForRectangular(10, 20, 30);
-        var ecopart = new Ecopart(name, materialId, shapeId, dimension);
+        var ecopart = new Ecopart(name, materialId, shapeId, ShapeType.Rectangular, dimension);
         var shape = new Shape(ShapeType.Rectangular);
         var material = new Material("PET", density: 2.0, emissionFactor: 1.0);
 
@@ -109,7 +109,7 @@ public class EcopartTest
         var materialId = new MaterialId(Guid.NewGuid());
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForCylinder(radius: 5, height: 10);
-        var ecopart = new Ecopart(name, materialId, shapeId, dimension);
+        var ecopart = new Ecopart(name, materialId, shapeId, ShapeType.Cylinder, dimension);
         var shape = new Shape(ShapeType.Cylinder);
         var material = new Material("PET", density: 2.0, emissionFactor: 1.0);
 
@@ -125,7 +125,7 @@ public class EcopartTest
         var materialId = new MaterialId(Guid.NewGuid());
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForRectangular(10, 20, 30);
-        var ecopart = new Ecopart(name, materialId, shapeId, dimension);
+        var ecopart = new Ecopart(name, materialId, shapeId, ShapeType.Rectangular, dimension);
         var shape = new Shape(ShapeType.Rectangular);
         var material = new Material("PET", density: 2.0, emissionFactor: 1.5);
 
@@ -141,7 +141,7 @@ public class EcopartTest
         var materialId = new MaterialId(Guid.NewGuid());
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForCylinder(radius: 5, height: 10);
-        var ecopart = new Ecopart(name, materialId, shapeId, dimension);
+        var ecopart = new Ecopart(name, materialId, shapeId, ShapeType.Cylinder, dimension);
         var shape = new Shape(ShapeType.Cylinder);
         var material = new Material("PET", density: 2.0, emissionFactor: 1.5);
         var mass = (Math.PI * 5 * 5 * 10) * 2;
@@ -163,8 +163,8 @@ public class EcopartTest
         var shapeId = new ShapeId(Guid.NewGuid());
         var dimension = Dimension.ForRectangular(10, 20, 30);
 
-        var a = new Ecopart(name, materialId, shapeId, dimension);
-        var b = new Ecopart(name, materialId, shapeId, dimension);
+        var a = new Ecopart(name, materialId, shapeId, ShapeType.Rectangular, dimension);
+        var b = new Ecopart(name, materialId, shapeId, ShapeType.Rectangular, dimension);
 
         a.Id.Should().NotBe(b.Id);
     }

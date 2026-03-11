@@ -72,7 +72,7 @@ function handlePieClick(params: { dataIndex: number }) {
       </p>
     </WidgetCard>
 
-    <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[450px]">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[450px]">
       <WidgetCard
         class="h-[450px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
         aria-label="Pie chart section"
@@ -83,7 +83,7 @@ function handlePieClick(params: { dataIndex: number }) {
         class="h-[450px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
         aria-label="Pie chart section"
       >
-        <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <section
             v-for="(label, index) in currentFaseData.labels"
             :key="index"

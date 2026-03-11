@@ -1,5 +1,4 @@
-using Binsoft.Ecoparts.Domain.Entities;
-using Binsoft.Ecoparts.Domain.ValueObjects;
+using Binsoft.Ecoparts.Infrastructure.Entities;
 using Binsoft.Ecoparts.Infrastructure.Persistances;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,36 +16,34 @@ namespace Binsoft.Ecoparts.Infrastructure.Data
         public async Task SeedAsync()
         {
             if (await _context.Ecoparts.AnyAsync())
-            {
                 return;
-            }
 
-            var PET = new Material("PET", 1.27, 2.25);
-            var HDPE = new Material("HDPE", 0.96, 3.09);
-            var LDPE = new Material("LDPE", 0.94, 3.09);
-            var PP = new Material("PP", 0.91, 3.09);
-            var PS = new Material("PS", 1.06, 3.33);
-            var PVC = new Material("PVC", 1.45, 1.39);
-            var PLA = new Material("PLA", 1.24, 0.011);
+            var PET  = new Material { MaterialId = Guid.NewGuid(), MaterialName = "PET",  MaterialDensity = 1.27, MaterialEmissionFactor = 2.25 };
+            var HDPE = new Material { MaterialId = Guid.NewGuid(), MaterialName = "HDPE", MaterialDensity = 0.96, MaterialEmissionFactor = 3.09 };
+            var LDPE = new Material { MaterialId = Guid.NewGuid(), MaterialName = "LDPE", MaterialDensity = 0.94, MaterialEmissionFactor = 3.09 };
+            var PP   = new Material { MaterialId = Guid.NewGuid(), MaterialName = "PP",   MaterialDensity = 0.91, MaterialEmissionFactor = 3.09 };
+            var PS   = new Material { MaterialId = Guid.NewGuid(), MaterialName = "PS",   MaterialDensity = 1.06, MaterialEmissionFactor = 3.33 };
+            var PVC  = new Material { MaterialId = Guid.NewGuid(), MaterialName = "PVC",  MaterialDensity = 1.45, MaterialEmissionFactor = 1.39 };
+            var PLA  = new Material { MaterialId = Guid.NewGuid(), MaterialName = "PLA",  MaterialDensity = 1.24, MaterialEmissionFactor = 0.011 };
 
             await _context.Materials.AddRangeAsync(PET, HDPE, LDPE, PP, PS, PVC, PLA);
             await _context.SaveChangesAsync();
 
-            var cylinderShape = new Shape(ShapeType.Cylinder);
-            var rectangularShape = new Shape(ShapeType.Rectangular);
+            var cylinderShape    = new Shape { ShapeId = Guid.NewGuid(), ShapeType = 0 };
+            var rectangularShape = new Shape { ShapeId = Guid.NewGuid(), ShapeType = 1 };
             await _context.Shapes.AddRangeAsync(cylinderShape, rectangularShape);
             await _context.SaveChangesAsync();
 
             var ecoparts = new List<Ecopart>
             {
-                new Ecopart("PET plate A", PET.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
-                new Ecopart("PET plate A", PET.Id, rectangularShape.Id, Dimension.ForRectangular(0.05, 0.8, 0.2)),
-                new Ecopart("HDPE plate A", HDPE.Id, rectangularShape.Id, Dimension.ForRectangular(10, 20, 30)),
-                new Ecopart("LDPE plate A", LDPE.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
-                new Ecopart("PP plate A", PP.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
-                new Ecopart("PS plate A", PS.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
-                new Ecopart("PVC plate A", PVC.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
-                new Ecopart("PLA plate A", PLA.Id, cylinderShape.Id, Dimension.ForCylinder(0.05, 0.2)),
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "PET plate A",  MaterialId = PET.MaterialId,  ShapeId = cylinderShape.ShapeId,    DimHeight = 0.2, DimRadius = 0.05 },
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "PET plate B",  MaterialId = PET.MaterialId,  ShapeId = rectangularShape.ShapeId, DimHeight = 0.2, DimLength = 0.05, DimWidth = 0.8 },
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "HDPE plate A", MaterialId = HDPE.MaterialId, ShapeId = rectangularShape.ShapeId, DimHeight = 30,  DimLength = 10,   DimWidth = 20 },
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "LDPE plate A", MaterialId = LDPE.MaterialId, ShapeId = cylinderShape.ShapeId,    DimHeight = 0.2, DimRadius = 0.05 },
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "PP plate A",   MaterialId = PP.MaterialId,   ShapeId = cylinderShape.ShapeId,    DimHeight = 0.2, DimRadius = 0.05 },
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "PS plate A",   MaterialId = PS.MaterialId,   ShapeId = cylinderShape.ShapeId,    DimHeight = 0.2, DimRadius = 0.05 },
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "PVC plate A",  MaterialId = PVC.MaterialId,  ShapeId = cylinderShape.ShapeId,    DimHeight = 0.2, DimRadius = 0.05 },
+                new Ecopart { EcopartId = Guid.NewGuid(), EcopartName = "PLA plate A",  MaterialId = PLA.MaterialId,  ShapeId = cylinderShape.ShapeId,    DimHeight = 0.2, DimRadius = 0.05 },
             };
 
             await _context.Ecoparts.AddRangeAsync(ecoparts);

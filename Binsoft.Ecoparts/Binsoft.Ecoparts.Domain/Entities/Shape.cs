@@ -1,19 +1,20 @@
 ﻿using Binsoft.Ecoparts.Domain.ValueObjects;
 
-
-
 namespace Binsoft.Ecoparts.Domain.Entities
 {
     public class Shape
     {
         public ShapeId Id { get; private set; }
-
         public ShapeType ShapeType { get; private set; }
 
-        private Shape()
+        private Shape(Guid id, ShapeType shapeType)
         {
-            Id = new ShapeId(Guid.NewGuid());
+            Id = new ShapeId(id);
+            ShapeType = shapeType;
         }
+
+        public static Shape Reconstitute(Guid id, ShapeType shapeType)
+            => new(id, shapeType);
 
         public Shape(ShapeType shapeType)
         {
