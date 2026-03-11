@@ -9,10 +9,15 @@ public class Material
     public double Density { get; private set; }
     public double EmissionFactor { get; private set; }
 
-    private Material()
+    private Material(Guid id, string name, double density, double emissionFactor)
     {
-        Id = new MaterialId(Guid.NewGuid());
+        Id = new MaterialId(id);
+        Name = name;
+        Density = density;
+        EmissionFactor = emissionFactor;
     }
+
+    public static Material Reconstitute(Guid id, string name, double density, double emissionFactor) => new(id, name, density, emissionFactor);
 
     public Material(string name, double density, double emissionFactor)
     {

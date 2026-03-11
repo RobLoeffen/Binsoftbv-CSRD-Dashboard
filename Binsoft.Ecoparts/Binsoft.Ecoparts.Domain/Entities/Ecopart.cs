@@ -8,19 +8,24 @@ namespace Binsoft.Ecoparts.Domain.Entities
         public string Name { get; private set; } = string.Empty;
         public MaterialId MaterialId { get; private set; }
         public ShapeId ShapeId { get; private set; }
+        public ShapeType ShapeType { get; private set; }
         public Dimension Dimension { get; private set; }
 
-        private Ecopart() 
+        private Ecopart(Guid id, string name, MaterialId materialId, ShapeId shapeId, ShapeType shapeType, Dimension dimension)
         {
-            Id = new EcopartId(Guid.NewGuid());
-            Name = string.Empty;
-            MaterialId = null!;
-            ShapeId = null!;
-            Dimension = null!;
+            Id = new EcopartId(id);
+            Name = name;
+            MaterialId = materialId;
+            ShapeId = shapeId;
+            ShapeType = shapeType;
+            Dimension = dimension;
         }
 
-        public Ecopart(string name, MaterialId materialId, ShapeId shapeId, Dimension dimension)
-        {       
+        public static Ecopart Reconstitute(Guid id, string name, Guid materialId, Guid shapeId, ShapeType shapeType, Dimension dimension)
+            => new(id, name, new MaterialId(materialId), new ShapeId(shapeId), shapeType, dimension);
+
+        public Ecopart(string name, MaterialId materialId, ShapeId shapeId, ShapeType shapeType, Dimension dimension)
+        {
             ArgumentException.ThrowIfNullOrWhiteSpace(name);
             ArgumentNullException.ThrowIfNull(materialId);
             ArgumentNullException.ThrowIfNull(shapeId);
@@ -30,6 +35,7 @@ namespace Binsoft.Ecoparts.Domain.Entities
             Name = name;
             MaterialId = materialId;
             ShapeId = shapeId;
+            ShapeType = shapeType;
             Dimension = dimension;
         }
 

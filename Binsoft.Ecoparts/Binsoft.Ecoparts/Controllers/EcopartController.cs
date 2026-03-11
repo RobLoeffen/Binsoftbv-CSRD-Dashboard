@@ -23,9 +23,6 @@ namespace Binsoft.Ecoparts.Api.Controllers
         }
 
         [HttpGet("by-material")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetEcopartsByMaterial([FromQuery] string materialName, [FromQuery] string? shapeType)
         {
             try
@@ -44,8 +41,6 @@ namespace Binsoft.Ecoparts.Api.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetEcopartById(Guid id)
         {
             var ecopart = await _ecopartService.GetEcopartByIdAsync(id);
