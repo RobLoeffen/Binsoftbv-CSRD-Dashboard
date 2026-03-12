@@ -54,7 +54,7 @@ function handlePieClick(params: { dataIndex: number }) {
     </p>
     <WidgetCard
       v-else-if="chartConfig"
-      class="h-[450px] p-4 hover:shadow-2xl"
+      class="h-[50vh] p-4 hover:shadow-2xl"
       aria-label="Shape distribution pie chart"
     >
       <ChartWrapper :option="chartConfig" @click="handlePieClick" />

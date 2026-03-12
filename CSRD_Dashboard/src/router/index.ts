@@ -13,6 +13,12 @@ const routes = [
     props: true,
   },
   {
+    path: '/product',
+    name: 'ProductOverview',
+    component: () => import('@/components/ProductOverview.vue'),
+    props: true,
+  },
+  {
     path: '/materials/:materialId',
     name: 'MaterialDetails',
     component: () => import('@/components/MaterialDetails.vue'),

@@ -1,14 +1,23 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import NavBar from '@/components/layout/NavBar.vue'
+import SideBar from '@/components/layout/SideBar.vue'
+import FooterLayout from '@/components/layout/FooterLayout.vue'
+
+const sidebarOpen = ref(false)
 </script>
 
 <template>
+  <NavBar @toggle-sidebar="sidebarOpen = !sidebarOpen" />
+  <SideBar :is-open="sidebarOpen" @close="sidebarOpen = false" />
   <main>
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
-        <component :is="Component"/>
+        <component :is="Component" />
       </transition>
     </router-view>
   </main>
+  <FooterLayout />
 </template>
 
 <style scoped>

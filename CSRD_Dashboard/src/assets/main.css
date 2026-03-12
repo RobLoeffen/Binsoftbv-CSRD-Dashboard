@@ -4,4 +4,52 @@
 #app {
   min-height: 100vh;
   width: 100%;
+  display: grid;
+  grid-template-columns: minmax(150px,200px) 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    'sidebar navbar'
+    'sidebar main'
+    'sidebar footer';
+}
+
+#app > nav {
+  grid-area: navbar;
+}
+
+#app > aside {
+  grid-area: sidebar;
+}
+
+#app > main {
+  grid-area: main;
+}
+
+#app > footer {
+  grid-area: footer;
+}
+
+@media (max-width: 900px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'navbar'
+      'main'
+      'footer';
+  }
+
+  #app > aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 998;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  #app > aside.is-open {
+    transform: translateX(0);
+  }
 }

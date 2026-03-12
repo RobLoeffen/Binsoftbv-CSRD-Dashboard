@@ -16,6 +16,7 @@ builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IShapeRepository, ShapeRepository>();
 builder.Services.AddScoped<IEcopartMapper, EcopartMapper>();
 builder.Services.AddScoped<IEcopartService, EcopartService>();
+builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
 builder.Services.AddControllers();

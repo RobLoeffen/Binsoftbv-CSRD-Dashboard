@@ -7,7 +7,6 @@ import { createRadarChartConfig } from './Dashboard/radarChartConfig'
 import PageLayout from './layout/PageLayout.vue'
 import WidgetCard from './layout/WidgetCard.vue'
 import { useRouter } from 'vue-router'
-
 const route = useRouter()
 
 const pieConfig = createPieChartConfig(
@@ -79,7 +78,7 @@ function handlePieClick(params: { dataIndex: number }) {
       <WidgetCard
         v-for="stat in stats"
         :key="stat.label"
-        class="px-6 py-5 flex items-center gap-4 hover:scale-[1.02]"
+        class="px-6 py-5 flex items-center gap-4"
       >
         <div class="flex flex-col min-w-0">
           <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#8ABFB8]">
@@ -95,25 +94,25 @@ function handlePieClick(params: { dataIndex: number }) {
 
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[400px]">
       <WidgetCard
-        class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        class="min-h-[400px] p-4"
         aria-label="Line chart section"
       >
         <ChartWrapper :option="lineConfig" />
       </WidgetCard>
        <WidgetCard
-        class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        class="min-h-[400px] p-4"
         aria-label="Radar chart section"
       >
         <ChartWrapper :option="radarConfig" />
       </WidgetCard>
       <WidgetCard
-        class="min-h-[400px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        class="min-h-[400px] p-4"
         aria-label="Bar chart section"
       >
         <ChartWrapper :option="barConfig" />
       </WidgetCard>
       <WidgetCard
-        class="min-h-[500px] p-4 hover:shadow-2xl hover:scale-[1.01] cursor-pointer"
+        class="min-h-[500px] p-4"
         aria-label="Pie chart section"
       >
         <ChartWrapper :option="pieConfig" @click="handlePieClick" />

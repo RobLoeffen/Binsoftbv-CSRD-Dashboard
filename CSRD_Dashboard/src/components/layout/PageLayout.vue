@@ -3,9 +3,9 @@ withDefaults(defineProps<{ title?: string }>(), { title: '' })
 </script>
 
 <template>
-  <div class="min-h-screen w-full p-4 sm:p-6 md:p-8 flex items-center justify-center">
+  <div class="w-full p-4 sm:p-3 md:p-8 flex items-start">
     <section
-      class="w-full max-w-[1250px] rounded-3xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-6"
+      class="w-full rounded-3xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-6"
       aria-label="Page content area"
     >
       <header class="relative flex items-center justify-between">

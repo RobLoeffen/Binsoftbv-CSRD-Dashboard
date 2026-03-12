@@ -15,8 +15,15 @@ public class MaterialRepository : IMaterialRepository
         _context = context;
     }
 
-    //public async Task<Material?> GetByIdAsync(MaterialId id) =>
-    //    await _context.Materials.FirstOrDefaultAsync(m => m.Id == id);
+    public async Task<IEnumerable<Material>> GetAllAsync()
+    {
+        var rows = await _context.Materials
+            .ToListAsync();
+
+        var Materials = rows.Select(row => Material.Reconstitute(row.MaterialId, row.MaterialName, row.MaterialDensity, row.MaterialEmissionFactor)).ToList();
+
+        return Materials;
+    }
 
     public async Task<Material?> GetByIdAsync(MaterialId id)
     {
@@ -34,6 +41,21 @@ public class MaterialRepository : IMaterialRepository
 
         return row is null ? null
             : Material.Reconstitute(row.MaterialId, row.MaterialName, row.MaterialDensity, row.MaterialEmissionFactor);
+    }
+
+    public async Task<Material?> AddMaterialAsync (Material material)
+    {
+        var row = new Entities.Material
+        {
+            MaterialId = material.Id.Value,
+            MaterialName = material.Name,
+            MaterialDensity = material.Density,
+            MaterialEmissionFactor = material.EmissionFactor
+        };
+
+        _context.Materials.Add(row);
+        await _context.SaveChangesAsync();
+        return material;
     }
 
     public async Task<IReadOnlyDictionary<MaterialId, Material>> GetByIdsAsync(IEnumerable<MaterialId> ids)

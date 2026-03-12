@@ -43,8 +43,8 @@ export const createPieChartConfig = (
       },
     },
     legend: {
-      orient: 'vertical',
-      right: 'right',
+      orient: 'horizontal',
+      bottom: 'bottom',
       textStyle: {
         color: '#8ABFB8',
         fontFamily: 'ui-monospace, monospace',

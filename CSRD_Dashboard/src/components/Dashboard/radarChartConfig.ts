@@ -31,7 +31,7 @@ export const createRadarChartConfig = (
       indicator: labels.map((label) => ({ name: label, max: 100 })),
       shape: 'polygon',
       center: ['50%', '55%'],
-      radius: '62%',
+      radius: '70%',
       splitNumber: 4,
       axisName: {
         color: '#8ABFB8',

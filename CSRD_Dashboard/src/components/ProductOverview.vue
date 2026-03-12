@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import ChartWrapper from './Dashboard/ChartWrapper.vue'
-import { createPieChartConfig } from './Dashboard/pieChartConfig'
-import { getBorderColorByValue, getTextColorByValue } from '../utils/colorScale'
+import BackButton from './layout/BackButton.vue'
 import PageLayout from './layout/PageLayout.vue'
 import WidgetCard from './layout/WidgetCard.vue'
-import BackButton from './layout/BackButton.vue'
+import ChartWrapper from './Dashboard/ChartWrapper.vue'
+import { computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { createPieChartConfig } from './Dashboard/pieChartConfig'
+import { useMaterials } from '@/composables/useMaterials'
+
+const { materials, loading, error, fetchMaterials } = useMaterials()
+
+onMounted(() => {
+  fetchMaterials()
+})
 
 const route = useRoute()
 const router = useRouter()
@@ -55,10 +61,21 @@ function handlePieClick(params: { dataIndex: number }) {
 </script>
 
 <template>
-  <PageLayout :title="`Scope ${faseId}`">
+  <PageLayout title="Product Overview">
     <template #actions>
       <BackButton />
     </template>
+
+    <p v-if="loading" class="text-center text-[var(--vt-c-primary-text)] font-mono">
+      Loading materials...
+    </p>
+    <p v-else-if="error" class="text-center text-red-400 font-mono">{{ error }}</p>
+    <p
+      v-else-if="!materials || materials.length === 0"
+      class="text-center text-[#8ABFB8] font-mono"
+    >
+      No materials found!
+    </p>
 
     <WidgetCard class="px-6 py-8 text-center hover:shadow-xl" aria-label="Introduction section">
       <p class="font-mono text-xs md:text-sm font-semibold text-[var(--vt-c-primary-text)]">
@@ -72,33 +89,22 @@ function handlePieClick(params: { dataIndex: number }) {
       </p>
     </WidgetCard>
 
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-4 sm:gap-6 min-h-[450px]">
-      <WidgetCard class="h-[500px] p-4 hover:shadow-2xl" aria-label="Pie chart section">
-        <ChartWrapper :option="pieConfig" @click="handlePieClick" />
-      </WidgetCard>
-      <WidgetCard class="h-full p-4 hover:shadow-2xl" aria-label="Pie chart section">
-        <div class="grid grid-cols-1 gap-4 sm:gap-6">
-          <section
-            v-for="(label, index) in currentFaseData.labels"
-            :key="index"
-            class="flex flex-col justify-between p-4 border-2 rounded-xl bg-white/5 hover:bg-white/10 cursor-pointer transition-all duration-200 overflow-hidden"
-            :class="getBorderColorByValue(currentFaseData.values[index] ?? 0)"
-          >
-            <h3
-              class="font-mono text-xs font-medium uppercase tracking-widest text-[var(--vt-c-secondary-text)] mb-3"
-            >
-              {{ label }}
-            </h3>
-            <p
-              class="font-mono text-3xl font-bold"
-              :class="getTextColorByValue(currentFaseData.values[index] ?? 0)"
-            >
-              {{ currentFaseData.values[index] ?? 0 }}
-              <span class="text-xs font-normal text-[var(--vt-c-secondary-text)]">CO₂e/KG</span>
-            </p>
-          </section>
-        </div>
-      </WidgetCard>
-    </div>
+    <WidgetCard>
+      <article
+        v-for="material in materials"
+        :key="material.id"
+        class="p-4 border rounded-lg hover:bg-[var(--vt-c-widget-background)] transition-colors"
+      >
+        <h3 class="text-xl font-mono font-bold text-[var(--vt-c-primary-text)]">
+          {{ material.name }}
+        </h3>
+      </article>
+    </WidgetCard>
+
+    <WidgetCard>
+      <ChartWrapper :option="pieConfig" @click="handlePieClick" />
+    </WidgetCard>
   </PageLayout>
 </template>
+
+<style scoped lang="scss"></style>

@@ -15,7 +15,6 @@ namespace Binsoft.Ecoparts.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllEcoparts()
         {
             var ecoparts = await _ecopartService.GetAllEcopartsAsync();
